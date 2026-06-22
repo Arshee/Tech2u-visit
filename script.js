@@ -3,37 +3,37 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var robotStage = document.getElementById('robotStage');
-  var canvas = document.getElementById('heroCanvas');
-  var productScene = document.querySelector('[data-bassmarker-scene]');
+  var heroCanvas = document.getElementById('heroCanvas');
+  var bassmarkerScene = document.querySelector('[data-bassmarker]');
 
   if (robotStage && !reduceMotion) {
     robotStage.addEventListener('pointermove', function (event) {
       var rect = robotStage.getBoundingClientRect();
       var x = (event.clientX - rect.left) / rect.width - .5;
       var y = (event.clientY - rect.top) / rect.height - .5;
-      robotStage.style.setProperty('--robot-x', (x * 18).toFixed(1) + 'px');
-      robotStage.style.setProperty('--robot-y', (y * 11).toFixed(1) + 'px');
-      robotStage.style.setProperty('--robot-rotate', (x * 7).toFixed(1) + 'deg');
+      robotStage.style.setProperty('--robot-x', (x * 15).toFixed(1) + 'px');
+      robotStage.style.setProperty('--robot-y', (y * 10).toFixed(1) + 'px');
+      robotStage.style.setProperty('--robot-rx', (x * 6).toFixed(1) + 'deg');
     });
     robotStage.addEventListener('pointerleave', function () {
       robotStage.style.removeProperty('--robot-x');
       robotStage.style.removeProperty('--robot-y');
-      robotStage.style.removeProperty('--robot-rotate');
+      robotStage.style.removeProperty('--robot-rx');
     });
   }
 
-  if (canvas) {
-    var context = canvas.getContext('2d');
+  if (heroCanvas) {
+    var context = heroCanvas.getContext('2d');
     var width = 0;
     var height = 0;
     var ratio = Math.min(window.devicePixelRatio || 1, 2);
-    var frame;
+    var canvasFrame;
 
     function fitCanvas() {
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
-      canvas.width = Math.max(1, Math.round(width * ratio));
-      canvas.height = Math.max(1, Math.round(height * ratio));
+      width = heroCanvas.clientWidth;
+      height = heroCanvas.clientHeight;
+      heroCanvas.width = Math.max(1, Math.round(width * ratio));
+      heroCanvas.height = Math.max(1, Math.round(height * ratio));
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
     }
 
@@ -46,100 +46,100 @@
       context.stroke();
     }
 
-    function draw(time) {
+    function drawHero(time) {
       context.clearRect(0, 0, width, height);
       context.lineWidth = 1;
 
+      var horizon = height * .67;
+      var originX = width * .71;
+      var travel = (time * .000055) % 1;
       var i;
-      var horizon = height * .64;
-      var originX = width * .7;
-      var travel = (time * .00006) % 1;
 
       for (i = 0; i < 15; i += 1) {
         var depth = (i + travel) / 15;
-        var y = horizon + Math.pow(depth, 2.2) * (height - horizon);
-        drawLine(width * .27, y, width * 1.02, y, '#79ddff', .025 + depth * .09);
+        var y = horizon + Math.pow(depth, 2.1) * (height - horizon);
+        drawLine(width * .26, y, width * 1.02, y, '#8179ff', .025 + depth * .09);
       }
 
       for (i = -10; i < 14; i += 1) {
-        var base = originX + i * width * .08;
-        drawLine(originX, height * .29, base, height * 1.03, i % 3 ? '#79ddff' : '#d8ff4b', .055);
+        var baseX = originX + i * width * .08;
+        drawLine(originX, height * .31, baseX, height * 1.04, i % 3 ? '#6db5f7' : '#d8ae63', .055);
       }
 
-      for (i = 0; i < 18; i += 1) {
-        var progress = i / 17;
-        var signal = (Math.sin(time * .003 + i * 1.8) + 1) * .5;
-        var x = width * .49 + progress * width * .48;
-        var bar = 9 + signal * height * .11;
-        context.globalAlpha = .48;
-        context.fillStyle = i % 5 === 0 ? '#ff5c99' : (i % 2 === 0 ? '#d8ff4b' : '#79ddff');
-        context.fillRect(x, horizon - bar, Math.max(2, width * .0019), bar);
+      for (i = 0; i < 17; i += 1) {
+        var position = i / 16;
+        var signal = (Math.sin(time * .003 + i * 1.55) + 1) * .5;
+        var x = width * .5 + position * width * .47;
+        var barHeight = 10 + signal * height * .105;
+        context.globalAlpha = .46;
+        context.fillStyle = i % 5 === 0 ? '#d8ae63' : (i % 2 === 0 ? '#8179ff' : '#6db5f7');
+        context.fillRect(x, horizon - barHeight, Math.max(2, width * .0018), barHeight);
       }
 
       context.globalAlpha = 1;
-      if (!reduceMotion) frame = window.requestAnimationFrame(draw);
+      if (!reduceMotion) canvasFrame = window.requestAnimationFrame(drawHero);
     }
 
-    new ResizeObserver(fitCanvas).observe(canvas);
+    new ResizeObserver(fitCanvas).observe(heroCanvas);
     fitCanvas();
-    draw(0);
-    if (!reduceMotion) frame = window.requestAnimationFrame(draw);
+    drawHero(0);
+    if (!reduceMotion) canvasFrame = window.requestAnimationFrame(drawHero);
     window.addEventListener('pagehide', function () {
-      if (frame) window.cancelAnimationFrame(frame);
+      if (canvasFrame) window.cancelAnimationFrame(canvasFrame);
     }, { once: true });
   }
 
-  var revealItems = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && revealItems.length) {
-    var observer = new IntersectionObserver(function (entries) {
+  var revealElements = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealElements.length) {
+    var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: .16 });
-    revealItems.forEach(function (item) { observer.observe(item); });
+    }, { threshold: .14 });
+    revealElements.forEach(function (element) { revealObserver.observe(element); });
   } else {
-    revealItems.forEach(function (item) { item.classList.add('is-visible'); });
+    revealElements.forEach(function (element) { element.classList.add('is-visible'); });
   }
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
   }
 
-  function updateProductScene() {
-    if (!productScene) return;
-    var rect = productScene.getBoundingClientRect();
+  function updateBassmarker() {
+    if (!bassmarkerScene) return;
+
+    var rect = bassmarkerScene.getBoundingClientRect();
     var maxScroll = Math.max(1, rect.height - window.innerHeight);
     var progress = clamp(-rect.top / maxScroll, 0, 1);
-    var reveal = clamp((progress - .53) / .28, 0, 1);
-    var marker = clamp((progress - .12) / .18, 0, 1);
-    productScene.style.setProperty('--scroll', progress.toFixed(3));
-    productScene.style.setProperty('--reveal', reveal.toFixed(3));
-    productScene.style.setProperty('--timeline-scale', (1.13 - progress * .13).toFixed(3));
-    productScene.style.setProperty('--timeline-scale-mobile', (1.35 - progress * .35).toFixed(3));
-    productScene.style.setProperty('--head-x', (13 + progress * 69).toFixed(2) + '%');
-    productScene.style.setProperty('--head-x-mobile', (8 + progress * 80).toFixed(2) + '%');
-    productScene.style.setProperty('--marker-opacity', marker.toFixed(3));
-    productScene.style.setProperty('--marker-scale', (.3 + marker * .7).toFixed(3));
-    productScene.style.setProperty('--reveal-y', ((1 - reveal) * 55).toFixed(1) + 'px');
-    productScene.style.setProperty('--icon-y', ((1 - reveal) * 30).toFixed(1) + 'px');
+    var markerProgress = clamp((progress - .1) / .2, 0, 1);
+    var productProgress = clamp((progress - .53) / .28, 0, 1);
 
+    bassmarkerScene.style.setProperty('--timeline-scale', (1.12 - progress * .12).toFixed(3));
+    bassmarkerScene.style.setProperty('--timeline-scale-mobile', (1.38 - progress * .38).toFixed(3));
+    bassmarkerScene.style.setProperty('--markers-opacity', markerProgress.toFixed(3));
+    bassmarkerScene.style.setProperty('--marker-drop', (-28 + markerProgress * 28).toFixed(1) + 'px');
+    bassmarkerScene.style.setProperty('--playhead-x', (13 + progress * 71).toFixed(2) + '%');
+    bassmarkerScene.style.setProperty('--product-opacity', productProgress.toFixed(3));
+    bassmarkerScene.style.setProperty('--product-y', ((1 - productProgress) * 54).toFixed(1) + 'px');
+    bassmarkerScene.style.setProperty('--icon-y', ((1 - productProgress) * 34).toFixed(1) + 'px');
+    bassmarkerScene.style.setProperty('--hint-opacity', (1 - clamp(productProgress * 1.6, 0, 1)).toFixed(3));
   }
 
-  if (productScene) {
-    var ticking = false;
-    function requestProductUpdate() {
-      if (ticking) return;
-      ticking = true;
+  if (bassmarkerScene) {
+    var scrollTicking = false;
+    function requestBassmarkerUpdate() {
+      if (scrollTicking) return;
+      scrollTicking = true;
       window.requestAnimationFrame(function () {
-        updateProductScene();
-        ticking = false;
+        updateBassmarker();
+        scrollTicking = false;
       });
     }
-    window.addEventListener('scroll', requestProductUpdate, { passive: true });
-    window.addEventListener('resize', requestProductUpdate);
-    updateProductScene();
+    window.addEventListener('scroll', requestBassmarkerUpdate, { passive: true });
+    window.addEventListener('resize', requestBassmarkerUpdate);
+    updateBassmarker();
   }
 }());
