@@ -213,6 +213,45 @@ p.lead {
   .nav-links { display: none; }
 }
 
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-faint);
+  cursor: pointer;
+  padding: 0.3rem 0.2rem;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  transition: color 0.25s var(--ease-out);
+}
+
+.lang-btn:hover { color: var(--color-text-dim); }
+
+.lang-btn.is-active {
+  color: var(--color-gold-bright);
+  font-weight: 600;
+}
+
+.lang-btn:focus-visible {
+  outline: 1px solid var(--color-cyan);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.lang-sep {
+  color: var(--color-text-faint);
+  opacity: 0.5;
+}
+
 /* ============ Hero ============ */
 .hero {
   position: relative;
@@ -314,8 +353,9 @@ p.lead {
 
 .robot-stage {
   position: relative;
-  width: min(440px, 80vw);
+  width: min(440px, 80vw, 60vh);
   aspect-ratio: 3 / 4;
+  max-height: 64vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
