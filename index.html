@@ -194,8 +194,13 @@
           <span class="bm-particle"></span>
           <span class="bm-particle"></span>
           <span class="bm-particle"></span>
-          <div class="bm-img-wrap" id="bmImgWrap">
-            <img src="images/bassmarker.png" alt="Logo BassMarker Pro — fioletowa ikona z falą audio i znacznikiem" id="bassmarkerAlt" width="512" height="512">
+          <div class="bm-coin-wrap" id="bmCoinWrap">
+            <canvas id="bmCoinCanvas" aria-hidden="true"></canvas>
+            <img src="images/bassmarker.png"
+                 alt="Logo BassMarker Pro — fioletowa ikona z falą audio i znacznikiem"
+                 id="bassmarkerAlt"
+                 class="bm-coin-fallback"
+                 width="512" height="512">
           </div>
         </div>
       </div>
@@ -259,7 +264,15 @@
   </div>
 </footer>
 
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js"
+  }
+}
+</script>
 <script src="i18n.js"></script>
 <script src="script.js"></script>
+<script type="module" src="bassmarker-coin.js"></script>
 </body>
 </html>

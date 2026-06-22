@@ -72,12 +72,8 @@
     { maxTilt: 9, maxShift: 10, ease: 0.06, trackWindow: true }
   );
 
-  // BassMarker logo — tracks only within its own card (smaller, local element)
-  setupTiltStage(
-    document.getElementById('bmStage'),
-    document.getElementById('bmImgWrap'),
-    { maxTilt: 14, maxShift: 6, ease: 0.1, trackWindow: false }
-  );
+  // Note: the BassMarker coin has its own pointer-driven rotation,
+  // handled inside bassmarker-coin.js (Three.js scene).
 
   // ---------- Scroll reveal ----------
   var revealEls = document.querySelectorAll('.reveal');
