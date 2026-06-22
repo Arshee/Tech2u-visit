@@ -40,8 +40,9 @@ import * as THREE from 'three';
   }
 
   var renderer, scene, camera, coin, coinTilt, frameId;
-  var targetRotX = 0, targetRotY = 0, currentRotX = 0, currentRotY = 0;
   var baseSpin = 0;
+  var baseSpinSpeed = 0.0065;
+  var targetSpinBoost = 0, currentSpinBoost = 0;
   var hovering = false;
 
   function init() {
@@ -144,18 +145,14 @@ import * as THREE from 'three';
   function onPointerMove(clientX, clientY) {
     var rect = wrap.getBoundingClientRect();
     var cx = rect.left + rect.width / 2;
-    var cy = rect.top + rect.height / 2;
     var relX = (clientX - cx) / (rect.width / 2);
-    var relY = (clientY - cy) / (rect.height / 2);
-    targetRotY = Math.max(-1, Math.min(1, relX)) * 0.5;
-    targetRotX = Math.max(-1, Math.min(1, relY)) * 0.35;
+    targetSpinBoost = Math.max(-1, Math.min(1, relX)) * 0.018;
   }
 
   wrap.addEventListener('mouseenter', function () { hovering = true; });
   wrap.addEventListener('mouseleave', function () {
     hovering = false;
-    targetRotX = 0;
-    targetRotY = 0;
+    targetSpinBoost = 0;
   });
   wrap.addEventListener('mousemove', function (e) {
     onPointerMove(e.clientX, e.clientY);
@@ -170,14 +167,11 @@ import * as THREE from 'three';
   function animate() {
     frameId = requestAnimationFrame(animate);
 
-    baseSpin += 0.006;
-    currentRotX += (targetRotX - currentRotX) * 0.08;
-    currentRotY += (targetRotY - currentRotY) * 0.08;
+    currentSpinBoost += (targetSpinBoost - currentSpinBoost) * 0.06;
+    baseSpin += baseSpinSpeed + currentSpinBoost;
 
     if (coin && coinTilt) {
       coin.rotation.y = baseSpin;
-      coinTilt.rotation.z = currentRotX * 0.6;
-      coinTilt.rotation.x = Math.PI / 2 + currentRotY * 0.4;
     }
 
     renderer.render(scene, camera);
