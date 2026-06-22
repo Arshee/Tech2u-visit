@@ -7,56 +7,77 @@
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---------- Robot parallax (head-tracking feel) ----------
-  if (!prefersReducedMotion) {
-    var stage = document.getElementById('robotStage');
-    var robotWrap = document.getElementById('robotImgWrap');
+  // ---------- Reusable 3D tilt-on-pointer stage ----------
+  function setupTiltStage(stageEl, wrapEl, options) {
+    if (!stageEl || !wrapEl || prefersReducedMotion) return;
 
-    if (stage && robotWrap) {
-      var targetX = 0, targetY = 0, currentX = 0, currentY = 0;
-      var maxTilt = 9; // degrees
-      var maxShift = 10; // px
+    var maxTilt = options && options.maxTilt !== undefined ? options.maxTilt : 9;
+    var maxShift = options && options.maxShift !== undefined ? options.maxShift : 10;
+    var ease = options && options.ease !== undefined ? options.ease : 0.06;
+    var trackWindow = options && options.trackWindow === true;
 
-      function onPointerMove(clientX, clientY) {
-        var rect = stage.getBoundingClientRect();
-        var cx = rect.left + rect.width / 2;
-        var cy = rect.top + rect.height / 2;
-        var relX = (clientX - cx) / (rect.width / 2);
-        var relY = (clientY - cy) / (rect.height / 2);
-        relX = Math.max(-1, Math.min(1, relX));
-        relY = Math.max(-1, Math.min(1, relY));
-        targetX = relX;
-        targetY = relY;
-      }
+    var targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+    var hovering = !trackWindow; // window-tracked stages are always "live"
 
+    function updateFromPointer(clientX, clientY) {
+      var rect = stageEl.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var relX = (clientX - cx) / (rect.width / 2);
+      var relY = (clientY - cy) / (rect.height / 2);
+      targetX = Math.max(-1, Math.min(1, relX));
+      targetY = Math.max(-1, Math.min(1, relY));
+    }
+
+    if (trackWindow) {
       window.addEventListener('mousemove', function (e) {
-        onPointerMove(e.clientX, e.clientY);
+        updateFromPointer(e.clientX, e.clientY);
       });
-
       window.addEventListener('mouseleave', function () {
         targetX = 0;
         targetY = 0;
       });
+    } else {
+      stageEl.addEventListener('mousemove', function (e) {
+        updateFromPointer(e.clientX, e.clientY);
+      });
+      stageEl.addEventListener('mouseleave', function () {
+        targetX = 0;
+        targetY = 0;
+      });
+    }
 
-      function animate() {
-        // ease toward target
-        currentX += (targetX - currentX) * 0.06;
-        currentY += (targetY - currentY) * 0.06;
+    function animate() {
+      currentX += (targetX - currentX) * ease;
+      currentY += (targetY - currentY) * ease;
 
-        var rotateY = currentX * maxTilt;
-        var rotateX = -currentY * maxTilt * 0.6;
-        var shiftX = currentX * maxShift;
+      var rotateY = currentX * maxTilt;
+      var rotateX = -currentY * maxTilt * 0.6;
+      var shiftX = currentX * maxShift;
 
-        robotWrap.style.transform =
-          'translateX(' + shiftX.toFixed(2) + 'px) ' +
-          'rotateY(' + rotateY.toFixed(2) + 'deg) ' +
-          'rotateX(' + rotateX.toFixed(2) + 'deg)';
+      wrapEl.style.transform =
+        'translateX(' + shiftX.toFixed(2) + 'px) ' +
+        'rotateY(' + rotateY.toFixed(2) + 'deg) ' +
+        'rotateX(' + rotateX.toFixed(2) + 'deg)';
 
-        requestAnimationFrame(animate);
-      }
       requestAnimationFrame(animate);
     }
+    requestAnimationFrame(animate);
   }
+
+  // Hero robot — tracks the whole window for a "looking at you" feel
+  setupTiltStage(
+    document.getElementById('robotStage'),
+    document.getElementById('robotImgWrap'),
+    { maxTilt: 9, maxShift: 10, ease: 0.06, trackWindow: true }
+  );
+
+  // BassMarker logo — tracks only within its own card (smaller, local element)
+  setupTiltStage(
+    document.getElementById('bmStage'),
+    document.getElementById('bmImgWrap'),
+    { maxTilt: 14, maxShift: 6, ease: 0.1, trackWindow: false }
+  );
 
   // ---------- Scroll reveal ----------
   var revealEls = document.querySelectorAll('.reveal');
