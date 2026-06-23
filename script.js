@@ -55,5 +55,29 @@
   const savedLanguage = localStorage.getItem("tech2u-language") || "pl";
   applyLanguage(savedLanguage);
   languageButton.addEventListener("click", () => applyLanguage(document.documentElement.lang === "pl" ? "en" : "pl"));
+
+  const bassmarker = document.querySelector("[data-bassmarker]");
+  let bassmarkerFrame = false;
+  const updateBassmarker = () => {
+    bassmarkerFrame = false;
+    if (!bassmarker) return;
+    const rect = bassmarker.getBoundingClientRect();
+    const travel = Math.max(bassmarker.offsetHeight - innerHeight, 1);
+    const progress = Math.max(0, Math.min(1, -rect.top / travel));
+    const markerProgress = Math.max(0, Math.min(1, (progress - .08) / .3));
+    const productProgress = Math.max(0, Math.min(1, (progress - .5) / .25));
+    bassmarker.style.setProperty("--timeline-scale", (.48 + Math.min(progress / .6, 1) * .72).toFixed(3));
+    bassmarker.style.setProperty("--timeline-opacity", `${1 - productProgress * .94}`);
+    bassmarker.style.setProperty("--marker-opacity", markerProgress.toFixed(2));
+    bassmarker.style.setProperty("--marker-y", `${-46 + markerProgress * 46}px`);
+    bassmarker.style.setProperty("--playhead-x", `${4 + markerProgress * 82}%`);
+    bassmarker.style.setProperty("--product-opacity", productProgress.toFixed(2));
+    bassmarker.style.setProperty("--product-y", `${100 - productProgress * 100}px`);
+    bassmarker.style.setProperty("--product-pointer", productProgress > .96 ? "auto" : "none");
+  };
+  const requestBassmarkerUpdate = () => { if (!bassmarkerFrame) { bassmarkerFrame = true; requestAnimationFrame(updateBassmarker); } };
+  addEventListener("scroll", requestBassmarkerUpdate, { passive:true });
+  addEventListener("resize", requestBassmarkerUpdate, { passive:true });
+  updateBassmarker();
   resize(); addEventListener("resize",resize,{passive:true}); draw(0);
 })();
