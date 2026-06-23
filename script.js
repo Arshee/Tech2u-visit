@@ -5,6 +5,7 @@
   var robotStage = document.getElementById('robotStage');
   var heroCanvas = document.getElementById('heroCanvas');
   var bassmarker = document.querySelector('[data-bassmarker]');
+  var editShowcase = document.querySelector('[data-edit-showcase]');
 
   if (robotStage && !reduceMotion) {
     robotStage.addEventListener('pointermove', function (event) {
@@ -139,5 +140,38 @@
     window.addEventListener('scroll', requestUpdate, { passive: true });
     window.addEventListener('resize', requestUpdate);
     updateBassmarker();
+  }
+
+  function updateEditShowcase() {
+    if (!editShowcase) return;
+    var rect = editShowcase.getBoundingClientRect();
+    var scrollRange = Math.max(1, rect.height - window.innerHeight);
+    var progress = clamp(-rect.top / scrollRange, 0, 1);
+
+    editShowcase.style.setProperty('--frame-a-x', (8 - progress * 16).toFixed(1) + '%');
+    editShowcase.style.setProperty('--frame-a-y', (8 + progress * 9).toFixed(1) + '%');
+    editShowcase.style.setProperty('--frame-a-opacity', (1 - progress * .45).toFixed(2));
+    editShowcase.style.setProperty('--frame-b-x', (31 - progress * 18).toFixed(1) + '%');
+    editShowcase.style.setProperty('--frame-b-y', (16 - progress * 7).toFixed(1) + '%');
+    editShowcase.style.setProperty('--frame-b-opacity', (.62 + progress * .3).toFixed(2));
+    editShowcase.style.setProperty('--frame-c-x', (7 + progress * 17).toFixed(1) + '%');
+    editShowcase.style.setProperty('--frame-c-y', (progress * 12).toFixed(1) + '%');
+    editShowcase.style.setProperty('--frame-c-opacity', (.36 + progress * .6).toFixed(2));
+    editShowcase.style.setProperty('--edit-head-x', (14 + progress * 71).toFixed(1) + '%');
+  }
+
+  if (editShowcase) {
+    var editTicking = false;
+    function requestEditUpdate() {
+      if (editTicking) return;
+      editTicking = true;
+      window.requestAnimationFrame(function () {
+        updateEditShowcase();
+        editTicking = false;
+      });
+    }
+    window.addEventListener('scroll', requestEditUpdate, { passive: true });
+    window.addEventListener('resize', requestEditUpdate);
+    updateEditShowcase();
   }
 }());

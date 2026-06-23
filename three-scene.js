@@ -207,6 +207,91 @@ if (THREE && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     requestAnimationFrame(render);
   }
 
+  function createGadgetSet() {
+    const group = new THREE.Group();
+    const violet = metal(0x6f68da, 0.18);
+    const copper = metal(0xb48b61, 0.2);
+    const dark = metal(0x161827, 0.24);
+
+    const phone = new THREE.Group();
+    const phoneBody = new THREE.Mesh(new THREE.BoxGeometry(0.58, 1.08, 0.1), violet);
+    const phoneScreen = new THREE.Mesh(new THREE.BoxGeometry(0.49, 0.88, 0.012), new THREE.MeshStandardMaterial({ color: 0x090b16, metalness: 0.45, roughness: 0.12 }));
+    phoneScreen.position.z = 0.06;
+    phone.add(phoneBody, phoneScreen);
+    phone.position.set(-1.34, 0.64, 0);
+    phone.rotation.set(0.24, -0.4, -0.2);
+    group.add(phone);
+
+    const headphones = new THREE.Group();
+    const band = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.055, 10, 32, Math.PI), copper);
+    band.rotation.z = Math.PI;
+    const cupA = new THREE.Mesh(new THREE.SphereGeometry(0.16, 18, 14), dark);
+    const cupB = cupA.clone();
+    cupA.position.set(-0.48, -0.14, 0);
+    cupB.position.set(0.48, -0.14, 0);
+    headphones.add(band, cupA, cupB);
+    headphones.position.set(1.32, 0.76, -0.1);
+    headphones.rotation.set(0.12, 0.36, 0.18);
+    group.add(headphones);
+
+    const camera = new THREE.Group();
+    const cameraBody = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.45, 0.3), dark);
+    const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.14, 24), copper);
+    lens.rotation.x = Math.PI / 2;
+    lens.position.set(0, 0, 0.2);
+    const topDial = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.04, 16), violet);
+    topDial.position.set(0.2, 0.26, 0);
+    camera.add(cameraBody, lens, topDial);
+    camera.position.set(1.48, -0.76, 0);
+    camera.rotation.set(-0.18, -0.34, 0.2);
+    group.add(camera);
+
+    return { group, phone, headphones, camera };
+  }
+
+  function mountHeroGadgets() {
+    const container = document.getElementById('heroGadgets');
+    if (!container) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    camera.position.set(0, 0, 5.8);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+    addLighting(scene);
+
+    const gadgets = createGadgetSet();
+    scene.add(gadgets.group);
+
+    function resize() {
+      const bounds = container.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+      camera.aspect = bounds.width / bounds.height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(bounds.width, bounds.height, false);
+    }
+    new ResizeObserver(resize).observe(container);
+    resize();
+
+    function render(time) {
+      gadgets.phone.position.y = 0.64 + Math.sin(time * .0012) * .09;
+      gadgets.phone.rotation.z = -0.2 + Math.sin(time * .0009) * .08;
+      gadgets.headphones.position.y = 0.76 + Math.sin(time * .0011 + 1.4) * .11;
+      gadgets.headphones.rotation.z = 0.18 + Math.sin(time * .0008) * .1;
+      gadgets.camera.position.y = -0.76 + Math.sin(time * .0014 + 2) * .08;
+      gadgets.camera.rotation.y = -0.34 + Math.sin(time * .00075) * .1;
+      renderer.render(scene, camera);
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+  }
+
   mountScene('carScene', 'car');
   mountScene('droneScene', 'drone');
+  mountHeroGadgets();
 }
