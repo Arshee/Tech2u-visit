@@ -7,29 +7,63 @@
 
   const canvas = document.querySelector("#heroCanvas");
   const context = canvas.getContext("2d");
-  const drawGrid = () => {
+  const stars = [];
+  let canvasWidth = 0;
+  let canvasHeight = 0;
+  const resizeSpace = () => {
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
+    canvasWidth = canvas.clientWidth;
+    canvasHeight = canvas.clientHeight;
+    canvas.width = canvasWidth * ratio;
+    canvas.height = canvasHeight * ratio;
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    context.clearRect(0, 0, width, height);
-    const horizon = height * 0.76;
-    context.strokeStyle = "rgba(131, 119, 232, .18)";
-    context.lineWidth = 1;
-    for (let x = -width; x < width * 2; x += 52) {
-      context.beginPath(); context.moveTo(width * .69, horizon); context.lineTo(x, height); context.stroke();
+    stars.length = 0;
+    const count = Math.min(165, Math.floor(canvasWidth * canvasHeight / 8800));
+    for (let index = 0; index < count; index += 1) {
+      stars.push({ x: Math.random() * canvasWidth, y: Math.random() * canvasHeight, size: Math.random() * 1.8 + .25, speed: Math.random() * .55 + .08, gold: Math.random() > .82 });
     }
-    for (let y = horizon + 12; y < height; y += 24) {
-      context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke();
-    }
-    context.strokeStyle = "rgba(229, 183, 90, .34)";
-    context.beginPath(); context.moveTo(0, height * .82); context.lineTo(width, height * .93); context.stroke();
-    context.beginPath(); context.moveTo(0, height * .2); context.lineTo(width, height * .2); context.stroke();
   };
-  drawGrid();
-  window.addEventListener("resize", drawGrid, { passive: true });
+  const drawSpace = (time) => {
+    context.clearRect(0, 0, canvasWidth, canvasHeight);
+    const originX = canvasWidth * .72;
+    const originY = canvasHeight * .54;
+    const glow = context.createRadialGradient(originX, originY, 0, originX, originY, Math.max(canvasWidth, canvasHeight) * .54);
+    glow.addColorStop(0, "rgba(71, 117, 255, .18)");
+    glow.addColorStop(.52, "rgba(21, 48, 105, .05)");
+    glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+    context.fillStyle = glow; context.fillRect(0, 0, canvasWidth, canvasHeight);
+    context.lineWidth = 1;
+    [0, 1, 2].forEach((index) => {
+      context.strokeStyle = `rgba(${index === 1 ? "234, 200, 136" : "126, 160, 255"}, ${.12 - index * .023})`;
+      context.beginPath();
+      context.ellipse(originX + index * 16, originY + index * 8, canvasWidth * (.22 + index * .055), canvasHeight * (.13 + index * .035), -.25, .1, Math.PI * 1.82);
+      context.stroke();
+    });
+    stars.forEach((star, index) => {
+      star.x -= star.speed * (index % 3 + 1);
+      star.y += Math.sin(time * .0007 + index) * .05;
+      if (star.x < -12) { star.x = canvasWidth + 12; star.y = Math.random() * canvasHeight; }
+      context.strokeStyle = star.gold ? "rgba(246, 213, 145, .37)" : "rgba(168, 204, 255, .34)";
+      context.beginPath(); context.moveTo(star.x + star.size * 7, star.y); context.lineTo(star.x, star.y); context.stroke();
+      context.fillStyle = star.gold ? "rgba(250, 224, 173, .96)" : "rgba(213, 232, 255, .9)";
+      context.beginPath(); context.arc(star.x, star.y, star.size, 0, Math.PI * 2); context.fill();
+    });
+    for (let index = 0; index < 5; index += 1) {
+      const angle = time * .00025 * (index % 2 ? 1 : -1) + index * 1.21;
+      const radiusX = canvasWidth * (.13 + index * .015);
+      const radiusY = canvasHeight * (.08 + index * .01);
+      const x = originX + Math.cos(angle) * radiusX;
+      const y = originY + Math.sin(angle) * radiusY;
+      context.fillStyle = index === 2 ? "#f3d59d" : "#d5ecff";
+      context.shadowBlur = 14; context.shadowColor = context.fillStyle;
+      context.beginPath(); context.arc(x, y, index === 2 ? 2.4 : 1.45, 0, Math.PI * 2); context.fill();
+      context.shadowBlur = 0;
+    }
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(drawSpace);
+  };
+  resizeSpace();
+  window.addEventListener("resize", resizeSpace, { passive: true });
+  drawSpace(0);
 
   const hero = document.querySelector(".hero");
   const robot = document.querySelector("#heroRobot");
