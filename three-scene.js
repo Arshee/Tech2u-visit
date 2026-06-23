@@ -83,4 +83,74 @@ const setupReview = (selector, create, flying = false) => {
   const halo=new THREE.Mesh(new THREE.CircleGeometry(2.3,40),new THREE.MeshBasicMaterial({color:flying?0x8175e8:0xcf9353,transparent:true,opacity:.16})); halo.position.set(.7,.1,-1); scene.add(halo); let hover=false; card.addEventListener("pointerenter",()=>hover=true); card.addEventListener("pointerleave",()=>hover=false);
   const resize=()=>{const w=container.clientWidth,h=container.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}; const animate=(time)=>{const t=time*.001,target=hover?(flying?.2:-.35):(flying?1.05:1.8); object.position.x+=(target-object.position.x)*.05; object.position.y=(flying?-.1:-.55)+Math.sin(t*(flying?3:1.3))*(flying?.23:.07); object.rotation.y+=hover?.012:.003; object.rotation.z=flying?Math.sin(t*2.8)*.14:.04; halo.rotation.z=t*.08; renderer.render(scene,camera);if(!reducedMotion)requestAnimationFrame(animate);}; addEventListener("resize",resize,{passive:true});resize();card.classList.add("three-ready");animate(0);
 };
-try { setupHero(); setupReview("#carScene",car); setupReview("#droneScene",drone,true); } catch (error) { console.warn("3D visuals unavailable; image fallbacks remain visible.",error); }
+
+const createCityTexture = () => {
+  const canvas = document.createElement("canvas");
+  canvas.width = 960; canvas.height = 540;
+  const context = canvas.getContext("2d");
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const paint = (time) => {
+    const gradient = context.createLinearGradient(0, 0, 960, 540);
+    gradient.addColorStop(0, "#09152f"); gradient.addColorStop(.55, "#20346a"); gradient.addColorStop(1, "#120e2d");
+    context.fillStyle = gradient; context.fillRect(0, 0, 960, 540);
+    context.strokeStyle = "rgba(116, 224, 255, .45)"; context.lineWidth = 3;
+    for (let x = 0; x < 1000; x += 58) { const wobble = Math.sin(time * .001 + x) * 15; context.beginPath(); context.moveTo(x, 540); context.lineTo(480 + (x - 480) * .38, 270 + wobble); context.stroke(); }
+    context.strokeStyle = "rgba(230, 182, 90, .3)";
+    for (let y = 305; y < 560; y += 32) { context.beginPath(); context.moveTo(0, y); context.lineTo(960, y); context.stroke(); }
+    const buildings = [[35,155,105,180],[145,89,82,246],[245,144,132,191],[405,54,105,281],[529,120,122,213],[682,76,90,258],[790,152,138,182]];
+    buildings.forEach(([x,y,w,h], index) => { context.fillStyle = index % 2 ? "#18264d" : "#0e1d3e"; context.fillRect(x,y,w,h); context.fillStyle = index % 2 ? "rgba(221,109,255,.74)" : "rgba(101,230,255,.65)"; for (let row=y+22;row<y+h-8;row+=31) for (let col=x+16;col<x+w-8;col+=26) if ((col+row+index*3)%4!==0) context.fillRect(col,row,9,5); });
+    context.strokeStyle = "rgba(116,244,255,.8)"; context.lineWidth = 5; context.beginPath(); context.ellipse(510, 185, 116, 35, 0, 0, Math.PI * 2); context.stroke();
+    context.fillStyle = "rgba(246,240,231,.85)"; context.font = "24px monospace"; context.fillText("TECH2U // REVIEW MODE", 34, 43);
+    texture.needsUpdate = true;
+  };
+  return { texture, paint };
+};
+
+const createSeatedRobot = () => {
+  const robot = new THREE.Group();
+  const metal = new THREE.MeshPhysicalMaterial({ color: 0xd7d4cd, metalness: .9, roughness: .19 });
+  const darkMetal = new THREE.MeshPhysicalMaterial({ color: 0x141723, metalness: .85, roughness: .18 });
+  const glow = new THREE.MeshPhysicalMaterial({ color: 0x56c8ff, metalness: .1, roughness: .08, emissive: 0x1479e8, emissiveIntensity: 1.15 });
+  const body = new THREE.Mesh(new THREE.SphereGeometry(.54, 30, 22), metal); body.scale.set(1, 1.1, .76); body.position.y = .46;
+  const core = new THREE.Mesh(new THREE.SphereGeometry(.17, 20, 16), glow); core.position.set(0, .52, .53);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(.68, 32, 24), metal); head.scale.set(1.04, .78, .78); head.position.y = 1.44;
+  const visor = new THREE.Mesh(new THREE.SphereGeometry(.48, 30, 20), darkMetal); visor.scale.set(1.22, .62, .25); visor.position.set(0, 1.42, .56);
+  const eyeLeft = new THREE.Mesh(new THREE.SphereGeometry(.08, 16, 12), glow); eyeLeft.position.set(-.18, 1.47, .69);
+  const eyeRight = eyeLeft.clone(); eyeRight.position.x = .18;
+  robot.add(body, core, head, visor, eyeLeft, eyeRight);
+  const headPivot = new THREE.Group(); headPivot.add(head, visor, eyeLeft, eyeRight); robot.remove(head, visor, eyeLeft, eyeRight); robot.add(headPivot);
+  const makeArm = (side) => { const arm = new THREE.Group(); const upper = new THREE.Mesh(new THREE.CylinderGeometry(.13, .17, .58, 20), metal); upper.position.y = -.29; const hand = new THREE.Mesh(new THREE.SphereGeometry(.15, 18, 14), metal); hand.position.y = -.64; arm.add(upper, hand); arm.position.set(side * .57, .7, .05); arm.rotation.z = side * -.56; robot.add(arm); };
+  makeArm(-1); makeArm(1);
+  const legs = [];
+  const makeLeg = (side) => { const pivot = new THREE.Group(); const thigh = new THREE.Mesh(new THREE.CylinderGeometry(.16, .21, .58, 20), metal); thigh.position.y = -.3; const shin = new THREE.Mesh(new THREE.CylinderGeometry(.14, .18, .48, 20), metal); shin.position.y = -.82; const foot = new THREE.Mesh(new THREE.SphereGeometry(.21, 20, 14), darkMetal); foot.scale.set(1.2, .65, 1.45); foot.position.set(0, -1.1, .18); pivot.add(thigh, shin, foot); pivot.position.set(side * .3, .1, .43); pivot.rotation.x = .11; robot.add(pivot); legs.push(pivot); };
+  makeLeg(-1); makeLeg(1);
+  robot.userData = { head: headPivot, legs };
+  robot.traverse((child) => { if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; } });
+  return robot;
+};
+
+const setupSocialScene = () => {
+  const container = document.querySelector("#socialScene"); if (!container) return;
+  const host = container.closest(".social-monitor");
+  const scene = new THREE.Scene(); const camera = new THREE.PerspectiveCamera(31, 1, .1, 100); camera.position.set(0, .1, 15.7);
+  const renderer = makeRenderer(container); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  scene.add(new THREE.HemisphereLight(0x89a5ff, 0x2b1d1a, 1.6));
+  const key = new THREE.DirectionalLight(0xffdb99, 4.2); key.position.set(-5, 7, 8); key.castShadow = true; key.shadow.mapSize.set(1024,1024); scene.add(key);
+  const neon = new THREE.PointLight(0x7a78ff, 24, 18, 2); neon.position.set(3, 1, 3); scene.add(neon);
+  const screen = createCityTexture();
+  const monitor = new THREE.Group(); monitor.position.set(.8, -.9, 0); monitor.rotation.set(.05, -.28, -.025);
+  const outer = new THREE.Mesh(new THREE.BoxGeometry(7.5, 4.45, .42), darkMetal); const rim = new THREE.Mesh(new THREE.BoxGeometry(7.15, 4.12, .12), mat.gold); rim.position.z = .25;
+  const display = new THREE.Mesh(new THREE.BoxGeometry(6.83, 3.78, .055), new THREE.MeshStandardMaterial({ map: screen.texture, metalness: .16, roughness: .42, emissive: 0x121b40, emissiveIntensity: .35 })); display.position.z = .34;
+  const stand = new THREE.Mesh(new THREE.BoxGeometry(1.25, .18, .7), darkMetal); stand.position.set(.15, -2.55, -.06); stand.rotation.y = -.18;
+  monitor.add(outer, rim, display, stand); [outer,rim,display,stand].forEach((mesh) => { mesh.castShadow = true; mesh.receiveShadow = true; });
+  const robot = createSeatedRobot(); robot.position.set(.18, 1.43, .34); robot.scale.set(.93,.93,.93); monitor.add(robot); scene.add(monitor);
+  const pointer = { x: 0, y: 0 }; const target = { x: 0, y: 0 };
+  host.closest(".social-sticky").addEventListener("pointermove", (event) => { const bounds = host.getBoundingClientRect(); pointer.x = ((event.clientX - bounds.left) / bounds.width - .5); pointer.y = ((event.clientY - bounds.top) / bounds.height - .5); });
+  const resize = () => { const width=container.clientWidth,height=container.clientHeight; renderer.setSize(width,height,false); camera.aspect=width/height; camera.updateProjectionMatrix(); };
+  const animate = (time) => { const t=time*.001; target.x += (pointer.x - target.x) * .045; target.y += (pointer.y - target.y) * .045; camera.position.x = target.x * .42; camera.position.y = .1 - target.y * .26; camera.lookAt(.25,-.1,0);
+    monitor.position.y = -.9 + Math.sin(t*.8)*.025; robot.userData.head.rotation.y = Math.sin(t*1.05)*.19; robot.userData.legs[0].rotation.z = .16 + Math.sin(t*3.2)*.22; robot.userData.legs[1].rotation.z = -.16 - Math.sin(t*3.2)*.22; screen.paint(time); renderer.render(scene,camera); if(!reducedMotion) requestAnimationFrame(animate); };
+  addEventListener("resize",resize,{passive:true}); resize(); host.classList.add("three-ready"); animate(0);
+};
+
+try { setupHero(); setupSocialScene(); setupReview("#carScene",car); setupReview("#droneScene",drone,true); } catch (error) { console.warn("3D visuals unavailable; image fallbacks remain visible.",error); }
