@@ -28,6 +28,32 @@
   };
   hero.addEventListener("pointermove",(event)=>{const x=(event.clientX/innerWidth-.5)*15;const y=(event.clientY/innerHeight-.5)*9;robot.style.transform=`translate3d(${x}px,${y}px,0)`;});
   hero.addEventListener("pointerleave",()=>{robot.style.transform="translate3d(0,0,0)";});
-  document.querySelectorAll(".floating-tag").forEach((tag,index)=>{tag.style.setProperty("--duration",`${5.7+Math.random()*3.2}s`);tag.style.setProperty("--delay",`${-Math.random()*4}s`);tag.style.setProperty("--move-x",`${-18+Math.random()*36}px`);tag.style.setProperty("--move-y",`${-22+Math.random()*32}px`);tag.style.setProperty("--turn",`${-5+Math.random()*10}deg`);if(index===1)tag.style.animationDirection="alternate-reverse";});
+  document.querySelectorAll(".orbit-tag").forEach((tag,index)=>{tag.style.setProperty("--duration",`${5.7+Math.random()*3.2}s`);tag.style.setProperty("--delay",`${-Math.random()*4}s`);tag.style.setProperty("--move-x",`${-18+Math.random()*36}px`);tag.style.setProperty("--move-y",`${-22+Math.random()*32}px`);tag.style.setProperty("--turn",`${-5+Math.random()*10}deg`);if(index===1)tag.style.animationDirection="alternate-reverse";});
+
+  const translations = {
+    pl: {
+      "nav.social":"Sociale", "nav.edit":"Montaz", "nav.follow":"Obserwuj <b>↗</b>",
+      "hero.title":"Witaj w swiecie<br><span>Tech2u.</span>", "hero.body":"Lacze technologie, film i AI, aby tworzyc tresci, ktore inspiruja, edukują i pomagaja dzialac szybciej.", "hero.explore":"Odkryj kanaly <b>↗</b>", "hero.statusLabel":"AKTUALNIE TWORZE", "hero.statusBody":"AI dla montazu w Final Cut Pro", "hero.scroll":"SCROLL DOWN",
+      "social.label":"SOCIAL MEDIA", "social.eyebrow":"KANALY TECH2U", "social.title":"Jedna pasja.<br><span>Cztery formaty.</span>", "social.body":"Tworze tresci tam, gdzie maja najwiekszy sens. Kazda platforma ma swoj charakter, a ja wykorzystuje to w 100%.", "social.cta":"Zobacz wszystkie kanaly ↗",
+      "tag.reviews":"RECENZJE", "tag.edit":"MONTAZ", "tag.social":"SOCIALE", "link.youtube":"Pelne recenzje", "link.youtubeDesc":"Szczegolowe testy, porownania i analizy.", "link.tiktok":"Szybkie testy", "link.tiktokDesc":"Krotkie, dynamiczne i konkretne materialy.", "link.instagram":"Kulisy i lifestyle", "link.instagramDesc":"Zajrzyj za kulisy nagran i zobacz technologie od kuchni.", "link.facebook":"Newsy i premiery", "link.facebookDesc":"Najswiezsze informacje i wazne wydarzenia ze swiata tech.", "metric.community":"SPOLECZNOSC", "metric.formats":"FORMATY", "metric.reviews":"RECENZJE I TESTY", "metric.tools":"NARZEDZIA", "edit.index":"TWORCA + DEWELOPER", "edit.eyebrow":"MATERIAL / RYTM / HISTORIA", "edit.title":"Film dla<br><span>emocji.</span>", "edit.body":"Tempo, kolor i przejscia maja dzialac, zanim padnie pierwsze slowo.", "product.eyebrow":"AI DLA MONTAZYSTOW", "product.body":"Wykrywa beaty i automatycznie stawia markery w Final Cut Pro. Ty budujesz historie, program pilnuje rytmu.", "product.cta":"Chce BassMarker Pro ↗"
+    },
+    en: {
+      "nav.social":"Social", "nav.edit":"Editing", "nav.follow":"Follow <b>↗</b>",
+      "hero.title":"Welcome to<br><span>Tech2u.</span>", "hero.body":"I combine technology, film and AI to create content that inspires, educates and helps you move faster.", "hero.explore":"Explore channels <b>↗</b>", "hero.statusLabel":"CURRENTLY BUILDING", "hero.statusBody":"AI for editing in Final Cut Pro", "hero.scroll":"SCROLL DOWN",
+      "social.label":"SOCIAL MEDIA", "social.eyebrow":"TECH2U CHANNELS", "social.title":"One passion.<br><span>Four formats.</span>", "social.body":"I create content where it makes the most sense. Every platform has its own character, and I use that to the fullest.", "social.cta":"See all channels ↗",
+      "tag.reviews":"REVIEWS", "tag.edit":"EDITING", "tag.social":"SOCIAL", "link.youtube":"Full reviews", "link.youtubeDesc":"In-depth tests, comparisons and analysis.", "link.tiktok":"Quick tests", "link.tiktokDesc":"Short, dynamic and specific videos.", "link.instagram":"Behind the scenes", "link.instagramDesc":"Look behind the scenes and see technology in context.", "link.facebook":"News and launches", "link.facebookDesc":"Latest updates and important events from the tech world.", "metric.community":"COMMUNITY", "metric.formats":"FORMATS", "metric.reviews":"REVIEWS AND TESTS", "metric.tools":"TOOLS", "edit.index":"CREATOR + DEVELOPER", "edit.eyebrow":"FOOTAGE / RHYTHM / STORY", "edit.title":"Film for<br><span>emotion.</span>", "edit.body":"Pacing, colour and transitions should work before the first word is spoken.", "product.eyebrow":"AI FOR EDITORS", "product.body":"It detects beats and automatically places markers in Final Cut Pro. You shape the story while the app keeps the rhythm.", "product.cta":"Get BassMarker Pro ↗"
+    }
+  };
+  const languageButton = document.querySelector("#languageToggle");
+  const applyLanguage = (language) => {
+    document.documentElement.lang = language;
+    document.querySelectorAll("[data-i18n]").forEach((element) => { const text = translations[language][element.dataset.i18n]; if (text) element.textContent = text; });
+    document.querySelectorAll("[data-i18n-html]").forEach((element) => { const text = translations[language][element.dataset.i18nHtml]; if (text) element.innerHTML = text; });
+    languageButton.textContent = language === "pl" ? "EN" : "PL";
+    localStorage.setItem("tech2u-language", language);
+  };
+  const savedLanguage = localStorage.getItem("tech2u-language") || "pl";
+  applyLanguage(savedLanguage);
+  languageButton.addEventListener("click", () => applyLanguage(document.documentElement.lang === "pl" ? "en" : "pl"));
   resize(); addEventListener("resize",resize,{passive:true}); draw(0);
 })();
