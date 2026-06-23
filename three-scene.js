@@ -207,43 +207,169 @@ if (THREE && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     requestAnimationFrame(render);
   }
 
+  function brightMetal(color, roughness = 0.22) {
+    return new THREE.MeshPhysicalMaterial({
+      color,
+      metalness: 0.55,
+      roughness,
+      clearcoat: 0.65,
+      clearcoatRoughness: 0.12,
+      envMapIntensity: 1.4
+    });
+  }
+
+  function glow(color, intensity = 1.4) {
+    return new THREE.MeshStandardMaterial({
+      color,
+      emissive: color,
+      emissiveIntensity: intensity,
+      roughness: 0.35,
+      metalness: 0.1
+    });
+  }
+
+  function createPhone() {
+    const group = new THREE.Group();
+    const titanium = brightMetal(0x8b8d93, 0.3);
+    const screenGlass = new THREE.MeshPhysicalMaterial({
+      color: 0x0d0e14,
+      metalness: 0.2,
+      roughness: 0.06,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.05
+    });
+
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.62, 1.28, 0.09), titanium);
+    group.add(body);
+
+    const screen = new THREE.Mesh(new THREE.BoxGeometry(0.54, 1.18, 0.015), screenGlass);
+    screen.position.z = 0.05;
+    group.add(screen);
+
+    const screenGlow = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.46, 1.0),
+      glow(0x5bc4e8, 0.55)
+    );
+    screenGlow.position.z = 0.059;
+    group.add(screenGlow);
+
+    const islandMaterial = new THREE.MeshStandardMaterial({ color: 0x05060a, roughness: 0.3, metalness: 0.6 });
+    const island = new THREE.Mesh(new THREE.CapsuleGeometry(0.045, 0.12, 4, 8), islandMaterial);
+    island.rotation.z = Math.PI / 2;
+    island.position.set(-0.13, 0.46, 0.06);
+    group.add(island);
+
+    const lensGlass = new THREE.MeshPhysicalMaterial({ color: 0x1a2a33, metalness: 0.7, roughness: 0.08, clearcoat: 1 });
+    [[-0.16, 0.62], [-0.16, 0.46], [-0.16, 0.30]].forEach((pos) => {
+      const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.025, 20), lensGlass);
+      lens.rotation.x = Math.PI / 2;
+      lens.position.set(pos[0], pos[1], -0.05);
+      group.add(lens);
+    });
+
+    return group;
+  }
+
+  function createCamera() {
+    const group = new THREE.Group();
+    const body = brightMetal(0x3a3a40, 0.32);
+    const grip = brightMetal(0x232326, 0.4);
+    const accent = brightMetal(0xc9a876, 0.22);
+
+    const mainBody = new THREE.Mesh(new THREE.BoxGeometry(0.92, 0.56, 0.4), body);
+    group.add(mainBody);
+
+    const gripBlock = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.56, 0.4), grip);
+    gripBlock.position.set(0.38, -0.02, 0);
+    group.add(gripBlock);
+
+    const viewfinder = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.16, 0.22), body);
+    viewfinder.position.set(-0.1, 0.34, -0.04);
+    group.add(viewfinder);
+
+    const lensBarrel = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.24, 0.5, 28), grip);
+    lensBarrel.rotation.x = Math.PI / 2;
+    lensBarrel.position.set(-0.2, 0, 0.42);
+    group.add(lensBarrel);
+
+    const lensRing = new THREE.Mesh(new THREE.TorusGeometry(0.225, 0.025, 10, 28), accent);
+    lensRing.rotation.x = Math.PI / 2;
+    lensRing.position.set(-0.2, 0, 0.2);
+    group.add(lensRing);
+
+    const lensGlassMat = new THREE.MeshPhysicalMaterial({ color: 0x10151c, metalness: 0.8, roughness: 0.04, clearcoat: 1 });
+    const lensGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.02, 28), lensGlassMat);
+    lensGlass.rotation.x = Math.PI / 2;
+    lensGlass.position.set(-0.2, 0, 0.67);
+    group.add(lensGlass);
+
+    const shutterDial = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.05, 16), accent);
+    shutterDial.position.set(0.3, 0.32, 0.05);
+    group.add(shutterDial);
+
+    const hotShoe = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.05, 0.12), grip);
+    hotShoe.position.set(0, 0.31, 0);
+    group.add(hotShoe);
+
+    return group;
+  }
+
+  function createHeadphones() {
+    const group = new THREE.Group();
+    const shellMaterial = brightMetal(0xe6e7ea, 0.35);
+    const cushionMaterial = new THREE.MeshStandardMaterial({ color: 0x1b1c22, roughness: 0.78, metalness: 0.08 });
+    const accent = glow(0xd3a759, 0.5);
+
+    const band = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.05, 12, 32, Math.PI), shellMaterial);
+    band.rotation.z = Math.PI;
+    group.add(band);
+
+    function earCup(sign) {
+      const cup = new THREE.Group();
+      const shell = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.21, 0.13, 24), shellMaterial);
+      shell.rotation.z = Math.PI / 2;
+      cup.add(shell);
+
+      const cushion = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.06, 10, 20), cushionMaterial);
+      cushion.rotation.y = Math.PI / 2;
+      cushion.position.x = sign * 0.07;
+      cup.add(cushion);
+
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.205, 0.012, 8, 24), accent);
+      ring.rotation.y = Math.PI / 2;
+      ring.position.x = sign * 0.066;
+      cup.add(ring);
+
+      return cup;
+    }
+
+    const cupLeft = earCup(-1);
+    cupLeft.position.set(-0.5, -0.16, 0);
+    group.add(cupLeft);
+
+    const cupRight = earCup(1);
+    cupRight.position.set(0.5, -0.16, 0);
+    group.add(cupRight);
+
+    return group;
+  }
+
   function createGadgetSet() {
     const group = new THREE.Group();
-    const violet = metal(0x6f68da, 0.18);
-    const copper = metal(0xb48b61, 0.2);
-    const dark = metal(0x161827, 0.24);
 
-    const phone = new THREE.Group();
-    const phoneBody = new THREE.Mesh(new THREE.BoxGeometry(0.58, 1.08, 0.1), violet);
-    const phoneScreen = new THREE.Mesh(new THREE.BoxGeometry(0.49, 0.88, 0.012), new THREE.MeshStandardMaterial({ color: 0x090b16, metalness: 0.45, roughness: 0.12 }));
-    phoneScreen.position.z = 0.06;
-    phone.add(phoneBody, phoneScreen);
-    phone.position.set(-1.34, 0.64, 0);
-    phone.rotation.set(0.24, -0.4, -0.2);
+    const phone = createPhone();
+    phone.position.set(-1.34, 0.6, 0);
+    phone.rotation.set(0.22, -0.42, -0.18);
     group.add(phone);
 
-    const headphones = new THREE.Group();
-    const band = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.055, 10, 32, Math.PI), copper);
-    band.rotation.z = Math.PI;
-    const cupA = new THREE.Mesh(new THREE.SphereGeometry(0.16, 18, 14), dark);
-    const cupB = cupA.clone();
-    cupA.position.set(-0.48, -0.14, 0);
-    cupB.position.set(0.48, -0.14, 0);
-    headphones.add(band, cupA, cupB);
-    headphones.position.set(1.32, 0.76, -0.1);
-    headphones.rotation.set(0.12, 0.36, 0.18);
+    const headphones = createHeadphones();
+    headphones.position.set(1.4, 0.72, -0.1);
+    headphones.rotation.set(0.1, 0.4, 0.16);
     group.add(headphones);
 
-    const camera = new THREE.Group();
-    const cameraBody = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.45, 0.3), dark);
-    const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.14, 24), copper);
-    lens.rotation.x = Math.PI / 2;
-    lens.position.set(0, 0, 0.2);
-    const topDial = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.04, 16), violet);
-    topDial.position.set(0.2, 0.26, 0);
-    camera.add(cameraBody, lens, topDial);
-    camera.position.set(1.48, -0.76, 0);
-    camera.rotation.set(-0.18, -0.34, 0.2);
+    const camera = createCamera();
+    camera.position.set(1.5, -0.78, 0);
+    camera.rotation.set(-0.16, -0.5, 0.16);
     group.add(camera);
 
     return { group, phone, headphones, camera };
@@ -264,6 +390,14 @@ if (THREE && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(renderer.domElement);
     addLighting(scene);
+
+    const fillLight = new THREE.DirectionalLight(0xffffff, 2.4);
+    fillLight.position.set(-3, -2, 6);
+    scene.add(fillLight);
+
+    const topGlow = new THREE.PointLight(0xffffff, 8, 14);
+    topGlow.position.set(0, 3, 3);
+    scene.add(topGlow);
 
     const gadgets = createGadgetSet();
     scene.add(gadgets.group);
