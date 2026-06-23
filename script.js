@@ -1,177 +1,118 @@
-(function () {
-  'use strict';
+(() => {
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const progress = (element, travel = 1) => {
+    const rect = element.getBoundingClientRect();
+    const available = Math.max(element.offsetHeight - window.innerHeight * travel, 1);
+    return clamp(-rect.top / available);
+  };
 
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var robotStage = document.getElementById('robotStage');
-  var heroCanvas = document.getElementById('heroCanvas');
-  var bassmarker = document.querySelector('[data-bassmarker]');
-  var editShowcase = document.querySelector('[data-edit-showcase]');
+  const canvas = document.querySelector("#heroCanvas");
+  const context = canvas.getContext("2d");
+  const hero = document.querySelector(".hero");
+  const paintHero = () => {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    context.clearRect(0, 0, width, height);
 
-  if (robotStage && !reduceMotion) {
-    robotStage.addEventListener('pointermove', function (event) {
-      var rect = robotStage.getBoundingClientRect();
-      var x = (event.clientX - rect.left) / rect.width - .5;
-      var y = (event.clientY - rect.top) / rect.height - .5;
-      robotStage.style.setProperty('--robot-x', (x * 15).toFixed(1) + 'px');
-      robotStage.style.setProperty('--robot-y', (y * 10).toFixed(1) + 'px');
-      robotStage.style.setProperty('--robot-rx', (x * 6).toFixed(1) + 'deg');
-    });
-    robotStage.addEventListener('pointerleave', function () {
-      robotStage.style.removeProperty('--robot-x');
-      robotStage.style.removeProperty('--robot-y');
-      robotStage.style.removeProperty('--robot-rx');
-    });
-  }
-
-  if (heroCanvas) {
-    var context = heroCanvas.getContext('2d');
-    var width = 0;
-    var height = 0;
-    var ratio = Math.min(window.devicePixelRatio || 1, 2);
-    var canvasFrame;
-
-    function fitCanvas() {
-      width = heroCanvas.clientWidth;
-      height = heroCanvas.clientHeight;
-      heroCanvas.width = Math.max(1, Math.round(width * ratio));
-      heroCanvas.height = Math.max(1, Math.round(height * ratio));
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    }
-
-    function line(x1, y1, x2, y2, color, opacity) {
-      context.globalAlpha = opacity;
-      context.strokeStyle = color;
+    const horizon = height * 0.74;
+    context.strokeStyle = "rgba(131, 119, 232, 0.18)";
+    context.lineWidth = 1;
+    for (let x = -width; x < width * 2; x += 52) {
       context.beginPath();
-      context.moveTo(x1, y1);
-      context.lineTo(x2, y2);
+      context.moveTo(width * 0.69, horizon);
+      context.lineTo(x, height);
       context.stroke();
     }
-
-    function draw(time) {
-      context.clearRect(0, 0, width, height);
-      context.lineWidth = 1;
-
-      var horizon = height * .67;
-      var originX = width * .71;
-      var travel = (time * .000055) % 1;
-      var i;
-
-      for (i = 0; i < 15; i += 1) {
-        var depth = (i + travel) / 15;
-        var y = horizon + Math.pow(depth, 2.1) * (height - horizon);
-        line(width * .26, y, width * 1.02, y, '#756deb', .025 + depth * .09);
-      }
-
-      for (i = -10; i < 14; i += 1) {
-        var baseX = originX + i * width * .08;
-        line(originX, height * .31, baseX, height * 1.04, i % 3 ? '#68a9e9' : '#d3a759', .055);
-      }
-
-      for (i = 0; i < 17; i += 1) {
-        var signal = (Math.sin(time * .003 + i * 1.55) + 1) * .5;
-        var x = width * .5 + (i / 16) * width * .47;
-        var barHeight = 10 + signal * height * .105;
-        context.globalAlpha = .46;
-        context.fillStyle = i % 5 === 0 ? '#d3a759' : (i % 2 === 0 ? '#756deb' : '#68a9e9');
-        context.fillRect(x, horizon - barHeight, Math.max(2, width * .0018), barHeight);
-      }
-
-      context.globalAlpha = 1;
-      if (!reduceMotion) canvasFrame = window.requestAnimationFrame(draw);
+    for (let y = horizon + 12; y < height; y += 24) {
+      context.beginPath();
+      context.moveTo(0, y);
+      context.lineTo(width, y);
+      context.stroke();
     }
+    context.strokeStyle = "rgba(229, 183, 90, 0.35)";
+    context.beginPath();
+    context.moveTo(0, height * 0.82);
+    context.lineTo(width, height * 0.93);
+    context.stroke();
+    context.beginPath();
+    context.moveTo(width * 0.07, height * 0.2);
+    context.lineTo(width * 0.9, height * 0.2);
+    context.stroke();
+  };
+  paintHero();
+  window.addEventListener("resize", paintHero, { passive: true });
 
-    new ResizeObserver(fitCanvas).observe(heroCanvas);
-    fitCanvas();
-    draw(0);
-    if (!reduceMotion) canvasFrame = window.requestAnimationFrame(draw);
-    window.addEventListener('pagehide', function () {
-      if (canvasFrame) window.cancelAnimationFrame(canvasFrame);
-    }, { once: true });
-  }
+  const heroRobot = document.querySelector("#heroRobot");
+  hero.addEventListener("pointermove", (event) => {
+    const x = (event.clientX / window.innerWidth - 0.5) * 16;
+    const y = (event.clientY / window.innerHeight - 0.5) * 10;
+    heroRobot.style.setProperty("--robot-x", `${x}px`);
+    heroRobot.style.setProperty("--robot-y", `${y}px`);
+  });
+  hero.addEventListener("pointerleave", () => {
+    heroRobot.style.setProperty("--robot-x", "0px");
+    heroRobot.style.setProperty("--robot-y", "0px");
+  });
 
-  var revealElements = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && revealElements.length) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: .15 });
-    revealElements.forEach(function (element) { observer.observe(element); });
-  } else {
-    revealElements.forEach(function (element) { element.classList.add('is-visible'); });
-  }
+  const social = document.querySelector("[data-social-intro]");
+  const edit = document.querySelector("[data-edit-showcase]");
+  const bassmarker = document.querySelector("[data-bassmarker]");
+  const editFrames = [...document.querySelectorAll(".frame")];
+  let scheduled = false;
 
-  function clamp(value, min, max) {
-    return Math.min(max, Math.max(min, value));
-  }
-
-  function updateBassmarker() {
-    if (!bassmarker) return;
-    var rect = bassmarker.getBoundingClientRect();
-    var scrollRange = Math.max(1, rect.height - window.innerHeight);
-    var progress = clamp(-rect.top / scrollRange, 0, 1);
-    var markers = clamp((progress - .1) / .2, 0, 1);
-    var product = clamp((progress - .53) / .28, 0, 1);
-
-    bassmarker.style.setProperty('--timeline-scale', (1.12 - progress * .12).toFixed(3));
-    bassmarker.style.setProperty('--timeline-scale-mobile', (1.43 - progress * .43).toFixed(3));
-    bassmarker.style.setProperty('--markers-opacity', markers.toFixed(3));
-    bassmarker.style.setProperty('--marker-drop', (-26 + markers * 26).toFixed(1) + 'px');
-    bassmarker.style.setProperty('--playhead-x', (4 + progress * 91).toFixed(2) + '%');
-    bassmarker.style.setProperty('--product-opacity', product.toFixed(3));
-    bassmarker.style.setProperty('--product-y', ((1 - product) * 54).toFixed(1) + 'px');
-    bassmarker.style.setProperty('--icon-y', ((1 - product) * 34).toFixed(1) + 'px');
-    bassmarker.style.setProperty('--hint-opacity', (1 - clamp(product * 1.6, 0, 1)).toFixed(3));
-  }
-
-  if (bassmarker) {
-    var ticking = false;
-    function requestUpdate() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(function () {
-        updateBassmarker();
-        ticking = false;
-      });
+  const updateScroll = () => {
+    scheduled = false;
+    if (social) {
+      const amount = progress(social);
+      social.style.setProperty("--monitor-y", `${-255 + amount * 255}px`);
     }
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
-    updateBassmarker();
-  }
-
-  function updateEditShowcase() {
-    if (!editShowcase) return;
-    var rect = editShowcase.getBoundingClientRect();
-    var scrollRange = Math.max(1, rect.height - window.innerHeight);
-    var progress = clamp(-rect.top / scrollRange, 0, 1);
-
-    editShowcase.style.setProperty('--frame-a-x', (8 - progress * 16).toFixed(1) + '%');
-    editShowcase.style.setProperty('--frame-a-y', (8 + progress * 9).toFixed(1) + '%');
-    editShowcase.style.setProperty('--frame-a-opacity', (1 - progress * .45).toFixed(2));
-    editShowcase.style.setProperty('--frame-b-x', (31 - progress * 18).toFixed(1) + '%');
-    editShowcase.style.setProperty('--frame-b-y', (16 - progress * 7).toFixed(1) + '%');
-    editShowcase.style.setProperty('--frame-b-opacity', (.62 + progress * .3).toFixed(2));
-    editShowcase.style.setProperty('--frame-c-x', (7 + progress * 17).toFixed(1) + '%');
-    editShowcase.style.setProperty('--frame-c-y', (progress * 12).toFixed(1) + '%');
-    editShowcase.style.setProperty('--frame-c-opacity', (.36 + progress * .6).toFixed(2));
-    editShowcase.style.setProperty('--edit-head-x', (14 + progress * 71).toFixed(1) + '%');
-  }
-
-  if (editShowcase) {
-    var editTicking = false;
-    function requestEditUpdate() {
-      if (editTicking) return;
-      editTicking = true;
-      window.requestAnimationFrame(function () {
-        updateEditShowcase();
-        editTicking = false;
+    if (edit) {
+      const amount = progress(edit);
+      const values = [
+        [25 - amount * 30, 8 + amount * 7, -7 + amount * 8],
+        [5 + amount * 23, 43 - amount * 27, 7 - amount * 9],
+        [37 - amount * 20, 53 - amount * 38, -2 + amount * 7]
+      ];
+      editFrames.forEach((frame, index) => {
+        const [x, y, rotation] = values[index];
+        frame.style.setProperty("--frame-x", `${x}%`);
+        frame.style.setProperty("--frame-y", `${y}%`);
+        frame.style.setProperty("--frame-r", `${rotation}deg`);
       });
+      edit.style.setProperty("--head-x", `${2 + amount * 93}%`);
     }
-    window.addEventListener('scroll', requestEditUpdate, { passive: true });
-    window.addEventListener('resize', requestEditUpdate);
-    updateEditShowcase();
-  }
-}());
+    if (bassmarker) {
+      const amount = progress(bassmarker);
+      const markerProgress = clamp((amount - 0.12) / 0.32);
+      const revealProgress = clamp((amount - 0.53) / 0.25);
+      const timelineScale = 0.45 + clamp(amount / 0.58) * 0.8;
+      bassmarker.style.setProperty("--timeline-scale", timelineScale.toFixed(3));
+      bassmarker.style.setProperty("--timeline-opacity", `${1 - revealProgress * 0.92}`);
+      bassmarker.style.setProperty("--markers-opacity", markerProgress.toFixed(2));
+      bassmarker.style.setProperty("--marker-drop", `${-44 + markerProgress * 44}px`);
+      bassmarker.style.setProperty("--playhead-x", `${4 + markerProgress * 81}%`);
+      bassmarker.style.setProperty("--product-opacity", revealProgress.toFixed(2));
+      bassmarker.style.setProperty("--product-y", `${110 - revealProgress * 110}px`);
+      bassmarker.style.setProperty("--product-pointer", revealProgress > 0.95 ? "auto" : "none");
+    }
+  };
+  const onScroll = () => {
+    if (!scheduled) {
+      scheduled = true;
+      window.requestAnimationFrame(updateScroll);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  updateScroll();
+
+  const cards = document.querySelectorAll(".review-card");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => entry.target.classList.toggle("is-visible", entry.isIntersecting));
+  }, { threshold: 0.18 });
+  cards.forEach((card) => observer.observe(card));
+})();

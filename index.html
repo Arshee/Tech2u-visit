@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#090b18">
-  <meta name="description" content="Tech2u - recenzje technologii, filmy, AI i BassMarker Pro dla Final Cut Pro.">
-  <title>Tech2u - technologia, filmy i AI</title>
+  <meta name="theme-color" content="#0a0b18">
+  <title>Tech2u - technologia, film i AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,185 +13,98 @@
 <body>
   <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Tech2u">
-      <i></i><span>TECH2U</span>
-    </a>
-    <nav class="nav-links" aria-label="Główna nawigacja">
-      <a href="#social">Sociale</a>
-      <a href="#o-mnie">O mnie</a>
-      <a href="#bassmarker">BassMarker</a>
-    </nav>
-    <a class="nav-cta" href="#social">Obserwuj <span>↗</span></a>
+    <a class="brand" href="#top"><i></i>TECH2U</a>
+    <nav><a href="#social">Sociale</a><a href="#montaz">Montaż</a><a href="#bassmarker">BassMarker</a></nav>
+    <a class="header-link" href="#social">Obserwuj ↗</a>
   </header>
 
   <main id="top">
     <section class="hero">
       <canvas id="heroCanvas" aria-hidden="true"></canvas>
-      <div class="hero-content">
+      <div class="hero-copy">
         <p class="eyebrow">TECHNOLOGIA / FILM / AI</p>
         <h1>Witaj w świecie<br><span>Tech2u.</span></h1>
-        <p class="hero-lead">Recenzuję technologię użytkową, robię filmy i tworzę narzędzia AI dla osób, które lubią, gdy wszystko działa szybciej.</p>
-        <div class="hero-actions">
-          <a class="button button-gold" href="#social">Odkryj kanały <span>↓</span></a>
-          <a class="text-cta" href="#bassmarker">Poznaj BassMarker Pro <span>↘</span></a>
-        </div>
+        <p>Recenzuję technologię, tworzę filmy i buduję narzędzia AI, które pomagają robić rzeczy szybciej.</p>
+        <div class="actions"><a class="button" href="#social">Odkryj kanały ↓</a><a href="#bassmarker">BassMarker Pro ↘</a></div>
       </div>
-
-      <div class="robot-stage" id="robotStage">
-        <div class="robot-lines" aria-hidden="true"><i></i><i></i><i></i></div>
-        <p class="robot-badge"><b></b> CREATIVE SYSTEM ONLINE</p>
-        <div class="robot-image"><img src="./images/robot.png" alt="Robot Tech2u w słuchawkach"></div>
-        <div class="robot-floor" aria-hidden="true"></div>
-      </div>
+      <div class="hero-robot" id="heroRobot"><img src="./images/robot.png" alt="Robot Tech2u"><div class="robot-grid"></div></div>
       <div class="hero-gadgets" id="heroGadgets" aria-hidden="true"></div>
+      <div class="hero-bottom"><span>SCROLL TO ENTER</span><span>SMARTPHONE / MIRRORLESS / HEADPHONES</span><span>TECH2U / 2026</span></div>
+    </section>
 
-      <div class="hero-bottom">
-        <span>SCROLL TO ENTER</span>
-        <span class="hero-tech-label">PHONE / AUDIO / CAMERA</span>
-        <span>TECH2U / 2026</span>
+    <section class="social-intro" id="social" data-social-intro>
+      <div class="social-sticky">
+        <p class="section-number"><b>01</b> SOCIAL MEDIA</p>
+        <div class="social-copy"><p class="eyebrow">KANAŁY TECH2U</p><h2>Recenzje,<br><span>które wychodzą</span><br>poza ekran.</h2></div>
+        <p class="social-lead">Auta, drony, sprzęt do tworzenia i technologie, które naprawdę mają znaczenie w codziennym użytkowaniu.</p>
+        <div class="social-monitor" aria-hidden="true">
+          <div class="monitor-shell"></div>
+          <div class="monitor-robot"><img src="./images/robot.png" alt=""></div>
+          <small>TECH IS BETTER<br>WHEN IT MOVES</small>
+        </div>
+        <nav class="social-rail">
+          <a href="https://www.youtube.com/@tech2upl" target="_blank" rel="noreferrer">YOUTUBE <b>↗</b></a>
+          <a href="https://www.instagram.com/tech2upl/" target="_blank" rel="noreferrer">INSTAGRAM <b>↗</b></a>
+          <a href="https://www.tiktok.com/@tech2upl" target="_blank" rel="noreferrer">TIKTOK <b>↗</b></a>
+          <a href="https://www.facebook.com/tech2upl" target="_blank" rel="noreferrer">FACEBOOK <b>↗</b></a>
+        </nav>
       </div>
     </section>
 
-    <section class="social-intro" id="social">
-      <p class="section-number"><span>01</span> SOCIAL MEDIA</p>
-      <div>
-        <p class="eyebrow">KANAŁY TECH2U</p>
-        <h2>Recenzje,<br><span>które wychodzą</span><br>poza ekran.</h2>
-      </div>
-      <p class="intro-copy">Auta, drony, sprzęt do tworzenia i technologie, które naprawdę mają znaczenie w codziennym użytkowaniu.</p>
-      <div class="social-peek" aria-hidden="true">
-        <span>TECH IS BETTER<br>WHEN IT MOVES</span>
-        <img src="./images/robot.png" alt="">
-      </div>
-      <div class="marquee" aria-hidden="true">
-        <div><span>YOUTUBE</span><b>✦</b><span>INSTAGRAM</span><b>✦</b><span>TIKTOK</span><b>✦</b><span>FACEBOOK</span><b>✦</b><span>TECH2U</span><b>✦</b><span>YOUTUBE</span><b>✦</b><span>INSTAGRAM</span><b>✦</b><span>TIKTOK</span><b>✦</b><span>FACEBOOK</span><b>✦</b><span>TECH2U</span><b>✦</b></div>
-      </div>
-    </section>
-
-    <section class="social-stage" aria-label="Kanały social Tech2u">
-      <a class="media-scene car-scene reveal" href="https://www.youtube.com/@tech2upl" target="_blank" rel="noreferrer">
-        <div class="scene-canvas" id="carScene" aria-hidden="true">
-          <img class="scene-fallback" src="./images/review-car.png" alt="">
-          <div class="tile-robot-peek"><img src="./images/robot.png" alt=""></div>
-        </div>
-        <div class="scene-copy">
-          <span class="platform">YT</span>
-          <div><p>YOUTUBE</p><h3>Technologia,<br>którą można<br>poczuć.</h3></div>
-          <em>Pełne recenzje <b>↗</b></em>
-        </div>
+    <section class="review-row" aria-label="Recenzje Tech2u">
+      <a class="review-card car-card" href="https://www.youtube.com/@tech2upl" target="_blank" rel="noreferrer">
+        <div class="scene" id="carScene"><img src="./images/review-car.png" alt=""><div class="peek-robot"><img src="./images/robot.png" alt=""></div></div>
+        <div class="review-copy"><span>YT</span><div><p>YOUTUBE</p><h3>Technologia,<br>którą można<br>poczuć.</h3></div></div>
       </a>
-
-      <a class="media-scene drone-scene reveal" href="https://www.instagram.com/tech2upl/" target="_blank" rel="noreferrer">
-        <div class="scene-canvas" id="droneScene" aria-hidden="true">
-          <img class="scene-fallback" src="./images/review-drone.png" alt="">
-          <div class="window-edge"></div>
-        </div>
-        <div class="scene-copy">
-          <span class="platform">IG</span>
-          <div><p>INSTAGRAM</p><h3>Więcej niż<br>kadr z testu.</h3></div>
-          <em>Kulisy i detale <b>↗</b></em>
-        </div>
+      <a class="review-card drone-card" href="https://www.instagram.com/tech2upl/" target="_blank" rel="noreferrer">
+        <div class="scene" id="droneScene"><img src="./images/review-drone.png" alt=""><i class="window-line"></i></div>
+        <div class="review-copy"><span>IG</span><div><p>INSTAGRAM</p><h3>Więcej niż<br>kadr z testu.</h3></div></div>
       </a>
-
-      <a class="media-scene tech-scene reveal" href="https://www.tiktok.com/@tech2upl" target="_blank" rel="noreferrer">
-        <div class="scene-canvas" aria-hidden="true">
-          <img src="./images/review-tech.png" alt="">
-          <div class="tech-meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        </div>
-        <div class="scene-copy">
-          <span class="platform">TK</span>
-          <div><p>TIKTOK</p><h3>Testy<br>w dobrym<br>tempie.</h3></div>
-          <em>Szybkie formaty <b>↗</b></em>
-        </div>
+      <a class="review-card tech-card" href="https://www.tiktok.com/@tech2upl" target="_blank" rel="noreferrer">
+        <div class="scene"><img src="./images/review-tech.png" alt=""></div>
+        <div class="review-copy"><span>TK</span><div><p>TIKTOK</p><h3>Testy<br>w dobrym<br>tempie.</h3></div></div>
       </a>
-
-      <a class="media-scene community-scene reveal" href="https://www.facebook.com/tech2upl" target="_blank" rel="noreferrer">
-        <div class="scene-canvas" aria-hidden="true">
-          <img src="./images/review-tech.png" alt="">
-          <strong>TECH2U</strong>
-        </div>
-        <div class="scene-copy">
-          <span class="platform">FB</span>
-          <div><p>FACEBOOK</p><h3>Premiery,<br>news i cała<br>reszta.</h3></div>
-          <em>Dołącz do społeczności <b>↗</b></em>
-        </div>
+      <a class="review-card community-card" href="https://www.facebook.com/tech2upl" target="_blank" rel="noreferrer">
+        <div class="scene"><img src="./images/review-tech.png" alt=""></div>
+        <div class="review-copy"><span>FB</span><div><p>FACEBOOK</p><h3>News, premiery<br>i kulisy.</h3></div></div>
       </a>
     </section>
 
-    <section class="about" id="o-mnie">
-      <p class="section-number"><span>02</span> TWÓRCA + DEWELOPER</p>
-      <div class="about-title">
-        <p class="eyebrow">TECH2U W SKRÓCIE</p>
-        <h2>Film dla<br><span>emocji.</span><br>AI dla<br><span>flow.</span></h2>
-      </div>
-      <div class="about-body reveal">
-        <p>Łączę testowanie sprzętu, dobry montaż i AI. Bo technologia ma sens dopiero wtedy, kiedy daje więcej możliwości, a nie więcej kliknięć.</p>
-        <div class="skills">
-          <span>RECENZJE <i></i><b>01</b></span>
-          <span>MONTAŻ <i></i><b>02</b></span>
-          <span>AI TOOLS <i></i><b>03</b></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="edit-showcase" data-edit-showcase>
+    <section class="edit-showcase" id="montaz" data-edit-showcase>
       <div class="edit-sticky">
-        <div class="edit-heading">
-          <p class="section-number"><span>03</span> MONTAŻ</p>
-          <div><p class="eyebrow">MATERIAŁ. RYTM. HISTORIA.</p><h2>Film dla<br><span>emocji.</span></h2></div>
-          <p>Od pojedynczego ujęcia do gotowej historii. Tempo, przejścia i kolor mają robić różnicę zanim padnie pierwsze słowo.</p>
-        </div>
-        <div class="edit-monitor">
-          <figure class="edit-frame frame-a"><img src="./images/review-car.png" alt="Kadr z testu technologii"><figcaption>01 / REVIEW CUT</figcaption></figure>
-          <figure class="edit-frame frame-b"><img src="./images/review-drone.png" alt="Kadr z ujęcia dronem"><figcaption>02 / MOTION CUT</figcaption></figure>
-          <figure class="edit-frame frame-c"><img src="./images/review-tech.png" alt="Kadr technologii użytkowej"><figcaption>03 / DETAIL CUT</figcaption></figure>
-          <div class="edit-playhead" aria-hidden="true"></div>
+        <div class="edit-copy"><p class="section-number"><b>02</b> TWÓRCA + DEWELOPER</p><div><p class="eyebrow">MATERIAŁ / RYTM / HISTORIA</p><h2>Film dla<br><span>emocji.</span></h2></div><p>Od pojedynczego ujęcia do gotowej historii. Tempo, kolor i przejścia mają działać, zanim padnie pierwsze słowo.</p></div>
+        <div class="edit-frames">
+          <figure class="frame frame-a"><img src="./images/review-car.png" alt="Kadr z recenzji auta"><figcaption>01 / REVIEW CUT</figcaption></figure>
+          <figure class="frame frame-b"><img src="./images/review-drone.png" alt="Kadr z drona"><figcaption>02 / MOTION CUT</figcaption></figure>
+          <figure class="frame frame-c"><img src="./images/review-tech.png" alt="Kadr sprzętu"><figcaption>03 / DETAIL CUT</figcaption></figure>
+          <i class="edit-head"></i>
         </div>
       </div>
     </section>
 
-    <section class="bassmarker-scene" id="bassmarker" data-bassmarker>
+    <section class="bassmarker" id="bassmarker" data-bassmarker>
       <div class="bassmarker-sticky">
         <p class="product-index">03 / BASSMARKER PRO / FINAL CUT PRO</p>
-        <div class="timeline-stage">
+        <div class="timeline-world">
           <div class="fcpx-timeline">
-            <div class="fcpx-track-image" role="img" aria-label="Czysta ścieżka audio z Final Cut Pro"></div>
-            <div class="marker-row" aria-hidden="true">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-            </div>
-            <div class="playhead" aria-hidden="true"></div>
+            <div class="timeline-image" role="img" aria-label="Czysta ścieżka audio z Final Cut Pro"></div>
+            <div class="marker-row" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <i class="playhead"></i>
           </div>
-          <p class="timeline-hint">SCROLL TO PLACE MARKERS</p>
+          <p>SCROLL TO PLACE MARKERS</p>
         </div>
-
         <div class="product-reveal">
           <div class="product-visual">
-            <div class="bassmarker-icon" aria-label="BassMarker Pro">
-              <div class="icon-tag"><i></i><b></b></div>
-              <div class="icon-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            </div>
-            <div class="usage-screen">
-              <span>LIVE AUDIO ANALYSIS</span>
-            </div>
+            <div class="bassmarker-icon"><div class="icon-tag"><i></i><b></b></div><div class="icon-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+            <div class="usage-screen"><span>LIVE AUDIO ANALYSIS</span></div>
           </div>
-          <div class="product-copy">
-            <p class="eyebrow">AI DLA MONTAŻYSTÓW</p>
-            <h2>BassMarker<br><span>Pro.</span></h2>
-            <p>Wykrywa beaty i automatycznie stawia markery w Final Cut Pro. Ty decydujesz o historii, a program pilnuje, żeby cięcia od początku miały właściwy rytm.</p>
-            <div class="product-specs"><span>BEAT DETECTION</span><span>FCPX READY</span><span>24 / 25 / 30 / 60 FPS</span></div>
-            <a class="button button-gold" href="mailto:kontakt.tech2u@gmail.com?subject=BassMarker%20Pro">Chcę BassMarker Pro <span>↗</span></a>
-          </div>
+          <div class="product-copy"><p class="eyebrow">AI DLA MONTAŻYSTÓW</p><h2>BassMarker<br><span>Pro.</span></h2><p>Wykrywa beaty i automatycznie stawia markery w Final Cut Pro. Ty decydujesz o historii, a program pilnuje rytmu.</p><div class="specs"><span>BEAT DETECTION</span><span>FCPX READY</span><span>24 / 25 / 30 / 60 FPS</span></div><a class="button" href="mailto:kontakt.tech2u@gmail.com?subject=BassMarker%20Pro">Chcę BassMarker Pro ↗</a></div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div><strong>TECH2U</strong><span>Technologia ma własny rytm.</span></div>
-    <a href="mailto:kontakt.tech2u@gmail.com">kontakt.tech2u@gmail.com <span>↗</span></a>
-    <small>© 2026 Tech2u.</small>
-  </footer>
-
+  <footer><div><strong>TECH2U</strong><span>Technologia ma własny rytm.</span></div><a href="mailto:kontakt.tech2u@gmail.com">kontakt.tech2u@gmail.com ↗</a><small>© 2026 Tech2u.</small></footer>
   <script src="script.js"></script>
   <script type="module" src="three-scene.js"></script>
 </body>
