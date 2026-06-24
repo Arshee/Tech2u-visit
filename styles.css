@@ -35,3 +35,25 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
 .bassmarker { position:relative; min-height:0; height:220vh; padding:0; overflow:hidden; }.bassmarker-sticky { position:sticky; top:0; min-height:100svh; overflow:hidden; padding:130px clamp(24px,9vw,150px); }.bassmarker .product-index { position:relative; z-index:4; }.bassmarker .timeline { width:min(110%,1650px); margin:0 auto; transform:scale(var(--timeline-scale,.48)); transform-origin:center; opacity:var(--timeline-opacity,1); transition:transform .08s linear,opacity .1s linear; }.bassmarker .product { position:absolute; top:54%; left:50%; width:min(1180px,86vw); margin:0; transform:translate(-50%,calc(-50% + var(--product-y,100px))); opacity:var(--product-opacity,0); pointer-events:var(--product-pointer,none); transition:transform .08s linear,opacity .12s linear; }.product-art { min-height:480px; }.fcpx-screen { z-index:3; right:-6%; bottom:-2%; width:96%; aspect-ratio:1.46; border:0; border-radius:0; background:url("./images/fcpx-car-3d.png") center / cover no-repeat; box-shadow:0 35px 80px rgba(0,0,0,.48); transform:rotate(3deg) translateZ(0); }.car-rush { position:absolute; z-index:1; right:2%; bottom:6%; width:88%; height:48%; background:repeating-linear-gradient(163deg,transparent 0 19px,rgba(111,175,255,.35) 20px 22px,transparent 23px 46px); filter:blur(1px); opacity:.55; animation:road-rush 1.35s linear infinite; transform:skewX(-18deg); }.fcpx-screen::after { content:""; position:absolute; inset:0; background:linear-gradient(110deg,transparent 30%,rgba(121,200,255,.22) 48%,transparent 62%); transform:translateX(-120%); animation:screen-sweep 3.4s ease-in-out infinite; }.app-icon { top:0; left:-4%; width:min(25vw,295px); transform:rotate(-10deg) scale(var(--icon-scale,1)); }.bassmarker .timeline>span { opacity:var(--marker-opacity,0); transform:translateY(var(--marker-y,-46px)); transition:opacity .08s linear,transform .08s linear; }.bassmarker .timeline>b { left:var(--playhead-x,42%); transition:left .08s linear; }
 @keyframes road-rush { from { background-position:0 0; } to { background-position:0 92px; } } @keyframes screen-sweep { 0%,57%,100% { transform:translateX(-120%); } 72% { transform:translateX(120%); } }
 @media (max-width:760px) { .macbook-robot { top:-6px; right:-11%; width:150%; }.orbit-tag.tag-reviews { left:-7%; }.orbit-tag.tag-edit { bottom:-6%; left:4%; }.orbit-tag.tag-social { right:-7%; }.bassmarker { height:185vh; }.bassmarker-sticky { padding:96px 22px; }.bassmarker .timeline { width:180vw; margin-left:-40vw; }.bassmarker .product { top:58%; width:88vw; }.product-art { min-height:300px; }.fcpx-screen { right:-14%; width:112%; }.app-icon { width:42vw; } }
+
+/* Release pass: leave clear reading lanes around the central MacBook composition. */
+@media (min-width:901px) {
+  .hero-status { top:min(66vh,660px); }
+  .social-layout { grid-template-columns:minmax(250px,.7fr) minmax(470px,1.2fr) minmax(292px,.86fr); gap:clamp(20px,2.7vw,46px); max-width:1510px; padding:136px clamp(42px,6.4vw,112px) 68px; }
+  .social-intro { z-index:9; transform:translateX(clamp(0px,1.1vw,18px)); }
+  .social-intro h2 { font-size:clamp(44px,3.85vw,72px); }
+  .social-intro>p:not(.eyebrow):not(.index) { max-width:315px; font-size:13px; }
+  .social-showcase { min-height:560px; transform:translateX(8px); }
+  .macbook-robot { top:8px; right:-7%; width:152%; filter:drop-shadow(-28px 36px 32px rgba(0,0,0,.48)) drop-shadow(18px 34px 56px rgba(14,8,47,.4)); }
+  .orbit-tag.tag-reviews { top:9%; left:4%; }
+  .orbit-tag.tag-edit { bottom:8%; left:7%; }
+  .orbit-tag.tag-social { top:5%; right:4%; }
+  .social-links { z-index:10; }
+}
+.app-icon { z-index:4; padding:0; overflow:hidden; background:none; box-shadow:0 24px 46px rgba(0,0,0,.46),0 0 0 1px rgba(177,151,255,.24); }
+.app-icon img { display:block; width:100%; height:100%; object-fit:cover; }
+.fcpx-screen { right:-18%; bottom:-8%; width:118%; background-image:url("./images/fcpx-interface.png"); background-size:contain; background-position:center; background-repeat:no-repeat; box-shadow:none; transform:rotate(1.5deg) translateZ(0); }
+.fcpx-screen::after { pointer-events:none; }
+.car-rush { right:-4%; bottom:2%; width:105%; height:44%; opacity:.62; }
+@media (max-width:1080px) and (min-width:761px) { .social-layout { padding-right:42px; padding-left:42px; }.macbook-robot { right:-11%; width:160%; }.orbit-tag.tag-reviews { left:1%; }.orbit-tag.tag-edit { left:3%; }.orbit-tag.tag-social { right:2%; } }
+@media (max-width:760px) { .social-showcase { min-height:330px; padding-top:0; }.macbook-robot { position:relative; top:auto; right:auto; display:block; width:128%; margin:-24px -14% -12px; transform:none; }.orbit-tag.tag-reviews { top:4%; left:0; }.orbit-tag.tag-edit { bottom:6%; left:3%; }.orbit-tag.tag-social { top:3%; right:0; }.app-icon { width:38vw; }.fcpx-screen { right:-22%; bottom:-7%; width:124%; } }
