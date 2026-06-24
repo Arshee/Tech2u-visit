@@ -57,3 +57,61 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
 .car-rush { right:-4%; bottom:2%; width:105%; height:44%; opacity:.62; }
 @media (max-width:1080px) and (min-width:761px) { .social-layout { padding-right:42px; padding-left:42px; }.macbook-robot { right:-11%; width:160%; }.orbit-tag.tag-reviews { left:1%; }.orbit-tag.tag-edit { left:3%; }.orbit-tag.tag-social { right:2%; } }
 @media (max-width:760px) { .social-showcase { min-height:330px; padding-top:0; }.macbook-robot { position:relative; top:auto; right:auto; display:block; width:128%; margin:-24px -14% -12px; transform:none; }.orbit-tag.tag-reviews { top:4%; left:0; }.orbit-tag.tag-edit { bottom:6%; left:3%; }.orbit-tag.tag-social { top:3%; right:0; }.app-icon { width:38vw; }.fcpx-screen { right:-22%; bottom:-7%; width:124%; } }
+
+/* Final interaction pass: ambient social signals, centred BassMarker story and contact. */
+.social { position:relative; isolation:isolate; }
+#socialCanvas { position:absolute; z-index:0; inset:0; width:100%; height:100%; pointer-events:none; opacity:.8; }
+.social-layout,.social-metrics { position:relative; z-index:1; }
+.orbit-tag i.material-icons-outlined { display:block; font-family:"Material Icons Outlined"; font-size:48px; font-weight:400; line-height:1; }
+.contact { padding:clamp(64px,9vw,148px) clamp(18px,3vw,52px); background:#070911; }
+.contact-panel { max-width:1440px; min-height:540px; margin:auto; padding:clamp(48px,7vw,110px) clamp(24px,7vw,128px); border:1px solid rgba(191,205,255,.15); border-radius:32px; background:linear-gradient(112deg,rgba(18,23,36,.96),rgba(25,27,37,.92)); box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 28px 72px rgba(0,0,0,.3); text-align:center; }
+.contact .index { margin-bottom:48px; text-align:left; }
+.contact .eyebrow { margin-bottom:26px; }
+.contact h2 { max-width:1020px; margin:0 auto 24px; font-size:clamp(40px,5vw,74px); font-weight:600; line-height:1.03; letter-spacing:0; }
+.contact h2 span { color:transparent; background:linear-gradient(104deg,#f8dfaa,#c99b54 43%,#f5e1b9); background-clip:text; }
+.contact h2 + p { max-width:660px; margin:0 auto 52px; color:rgba(245,241,233,.63); font-size:clamp(17px,1.7vw,25px); line-height:1.55; }
+.contact-email { display:inline-flex; align-items:center; gap:14px; min-height:70px; padding:0 38px; border:1px solid rgba(245,211,145,.72); border-radius:999px; color:#17131b; background:linear-gradient(104deg,#f2d194,#ae793d); box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 12px 30px rgba(215,157,65,.18); font-size:clamp(16px,1.7vw,25px); font-weight:600; transition:transform .2s ease,filter .2s ease; }
+.contact-email:hover { transform:translateY(-3px); filter:brightness(1.08); }
+
+.bassmarker { height:190vh; }
+.bassmarker-sticky { display:block; padding:0 clamp(24px,9vw,150px); }
+.bassmarker .product-index { position:absolute; top:clamp(118px,14vh,166px); left:clamp(24px,9vw,150px); margin:0; }
+.bassmarker .timeline { position:absolute; top:47%; left:50%; width:min(110%,1650px); margin:0; transform:translate(-50%,-50%) scale(var(--timeline-scale,.58)); transform-origin:center; }
+.bassmarker .product { top:56%; }
+.bassmarker .fcpx-screen { background-image:url("./images/fcpx-interface.png"); }
+
+@media (min-width:901px) {
+  .social-showcase { min-height:575px; }
+  .macbook-robot { top:32px; right:-10%; width:148%; filter:drop-shadow(-26px 34px 36px rgba(0,0,0,.5)) drop-shadow(18px 38px 60px rgba(14,8,47,.36)); }
+}
+@media (max-width:760px) {
+  .site-header nav { gap:0; }
+  .site-header nav a { padding-right:8px; padding-left:8px; }
+  .social-showcase { min-height:310px; }
+  .macbook-robot { width:132%; margin:-8px -16% -24px; }
+  .contact { padding:48px 16px; }
+  .contact-panel { min-height:440px; padding:48px 24px; border-radius:20px; }
+  .contact .index { margin-bottom:30px; }
+  .contact h2 + p { margin-bottom:34px; font-size:17px; }
+  .contact-email { min-height:57px; max-width:100%; padding:0 20px; font-size:14px; }
+  .bassmarker { height:185vh; }
+  .bassmarker-sticky { padding:0 22px; }
+  .bassmarker .product-index { top:104px; left:22px; }
+  .bassmarker .timeline { top:42%; left:50%; width:175vw; margin:0; transform:translate(-50%,-50%) scale(var(--timeline-scale,.58)); }
+  .bassmarker .product { top:59%; }
+}
+
+/* Anchor and scroll-stage corrections. Keep the content in view as anchors land. */
+.social,.bassmarker,.contact { scroll-margin-top:92px; }
+@media (min-width:761px) {
+  .social-layout { align-items:start; min-height:clamp(780px,85svh,1040px); padding-top:clamp(142px,16vh,198px); }
+}
+.bassmarker { height:175vh; }
+.bassmarker .timeline { top:46%; }
+.bassmarker .product { top:55%; }
+@media (max-width:760px) {
+  .social-layout { align-items:start; }
+  .bassmarker { height:165vh; }
+  .bassmarker .timeline { top:44%; }
+  .bassmarker .product { top:58%; }
+}
