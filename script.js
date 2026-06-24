@@ -28,13 +28,15 @@
   };
   hero.addEventListener("pointermove",(event)=>{const x=(event.clientX/innerWidth-.5)*15;const y=(event.clientY/innerHeight-.5)*9;robot.style.transform=`translate3d(${x}px,${y}px,0)`;});
   hero.addEventListener("pointerleave",()=>{robot.style.transform="translate3d(0,0,0)";});
-  document.querySelectorAll(".orbit-tag").forEach((tag,index)=>{tag.style.setProperty("--duration",`${5.7+Math.random()*3.2}s`);tag.style.setProperty("--delay",`${-Math.random()*4}s`);tag.style.setProperty("--move-x",`${-18+Math.random()*36}px`);tag.style.setProperty("--move-y",`${-22+Math.random()*32}px`);tag.style.setProperty("--turn",`${-5+Math.random()*10}deg`);if(index===1)tag.style.animationDirection="alternate-reverse";});
+  const tagMotions = [{ x:46, y:-34, turn:8, duration:8.6 }, { x:-52, y:-42, turn:-9, duration:10.2 }, { x:42, y:38, turn:7, duration:9.4 }];
+  document.querySelectorAll(".orbit-tag").forEach((tag,index)=>{const motion=tagMotions[index]||tagMotions[0]; const factor=innerWidth<761?.58:1; tag.style.setProperty("--duration",`${motion.duration}s`);tag.style.setProperty("--delay",`${-Math.random()*motion.duration}s`);tag.style.setProperty("--move-x",`${motion.x*factor}px`);tag.style.setProperty("--move-y",`${motion.y*factor}px`);tag.style.setProperty("--turn",`${motion.turn}deg`);if(index===1)tag.style.animationDirection="alternate-reverse";});
 
   const socialCanvas = document.querySelector("#socialCanvas");
   if (socialCanvas) {
     const social = document.querySelector(".social");
     const socialContext = socialCanvas.getContext("2d");
     const signals = Array.from({ length:18 }, () => ({ x:Math.random(), y:Math.random(), radius:Math.random()*1.6+.7, phase:Math.random()*Math.PI*2, speed:Math.random()*.34+.12, gold:Math.random()>.78 }));
+    const shootingStars = [{ at:5.4, x:.12, y:.2, length:.19 }, { at:21.8, x:.68, y:.14, length:.17 }, { at:39.1, x:.3, y:.38, length:.21 }];
     let socialWidth = 0; let socialHeight = 0; let socialPointer = { x:.56, y:.48 };
     const resizeSocialCanvas = () => { const ratio=Math.min(window.devicePixelRatio||1,2); socialWidth=social.clientWidth; socialHeight=social.clientHeight; socialCanvas.width=socialWidth*ratio; socialCanvas.height=socialHeight*ratio; socialContext.setTransform(ratio,0,0,ratio,0,0); };
     const drawSocialCanvas = (time) => {
@@ -42,6 +44,8 @@
       const centerX=socialWidth*(.54+(socialPointer.x-.5)*.035); const centerY=socialHeight*(.48+(socialPointer.y-.5)*.03);
       [0,1,2].forEach((ring) => { socialContext.strokeStyle=ring===1?"rgba(236,198,126,.1)":"rgba(135,159,255,.09)"; socialContext.lineWidth=1; socialContext.beginPath(); socialContext.ellipse(centerX+ring*18,centerY+ring*10,socialWidth*(.16+ring*.065),socialHeight*(.09+ring*.044),-.24,.12,Math.PI*1.84); socialContext.stroke(); });
       signals.forEach((signal,index) => { const x=signal.x*socialWidth+Math.sin(time*.00028*signal.speed+signal.phase)*34; const y=signal.y*socialHeight+Math.cos(time*.00023*signal.speed+signal.phase)*22; const near=Math.abs(x-centerX)<socialWidth*.32&&Math.abs(y-centerY)<socialHeight*.26; if(near){socialContext.strokeStyle=signal.gold?"rgba(241,204,132,.11)":"rgba(151,185,255,.08)";socialContext.beginPath();socialContext.moveTo(x,y);socialContext.lineTo(centerX+(index%3-1)*44,centerY+(index%4-1)*28);socialContext.stroke();} socialContext.fillStyle=signal.gold?"rgba(247,211,143,.7)":"rgba(186,210,255,.62)";socialContext.beginPath();socialContext.arc(x,y,signal.radius,0,Math.PI*2);socialContext.fill(); });
+      const cycle=(time*.001)%47;
+      shootingStars.forEach((star) => { const elapsed=cycle-star.at; if(elapsed<0||elapsed>1.1)return; const progress=elapsed/1.1; const x=(star.x+progress*.28)*socialWidth; const y=(star.y+progress*.19)*socialHeight; const length=star.length*socialWidth*(.45+progress*.55); socialContext.save(); socialContext.globalAlpha=Math.sin(progress*Math.PI)*.95; socialContext.strokeStyle="rgba(255,244,210,.96)"; socialContext.lineWidth=2.2; socialContext.shadowBlur=18; socialContext.shadowColor="rgba(232,196,128,.9)"; socialContext.beginPath(); socialContext.moveTo(x-length,y-length*.26); socialContext.lineTo(x,y); socialContext.stroke(); socialContext.fillStyle="#fff5d8"; socialContext.beginPath(); socialContext.arc(x,y,2.5,0,Math.PI*2); socialContext.fill(); socialContext.restore(); });
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(drawSocialCanvas);
     };
     social.addEventListener("pointermove",(event)=>{const rect=social.getBoundingClientRect();socialPointer={x:(event.clientX-rect.left)/rect.width,y:(event.clientY-rect.top)/rect.height};},{passive:true});
@@ -87,15 +91,16 @@
     const rect = bassmarker.getBoundingClientRect();
     const travel = Math.max(bassmarker.offsetHeight - innerHeight, 1);
     const progress = Math.max(0, Math.min(1, -rect.top / travel));
-    const markerProgress = Math.max(0, Math.min(1, (progress - .04) / .2));
-    const productProgress = Math.max(0, Math.min(1, (progress - .26) / .26));
-    bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .42, 1) * .54).toFixed(3));
-    bassmarker.style.setProperty("--timeline-opacity", `${1 - productProgress * .94}`);
+    const markerProgress = Math.max(0, Math.min(1, (progress - .04) / .18));
+    const timelineExit = Math.max(0, Math.min(1, (progress - .22) / .18));
+    const productProgress = Math.max(0, Math.min(1, (progress - .38) / .24));
+    bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .28, 1) * .64).toFixed(3));
+    bassmarker.style.setProperty("--timeline-opacity", `${1 - timelineExit}`);
     bassmarker.style.setProperty("--marker-opacity", markerProgress.toFixed(2));
     bassmarker.style.setProperty("--marker-y", `${-46 + markerProgress * 46}px`);
     bassmarker.style.setProperty("--playhead-x", `${4 + markerProgress * 82}%`);
     bassmarker.style.setProperty("--product-opacity", productProgress.toFixed(2));
-    bassmarker.style.setProperty("--product-y", `${48 - productProgress * 48}px`);
+    bassmarker.style.setProperty("--product-y", `${52 - productProgress * 52}px`);
     bassmarker.style.setProperty("--product-pointer", productProgress > .96 ? "auto" : "none");
   };
   const requestBassmarkerUpdate = () => { if (!bassmarkerFrame) { bassmarkerFrame = true; requestAnimationFrame(updateBassmarker); } };
