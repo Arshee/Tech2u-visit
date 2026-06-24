@@ -115,3 +115,14 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   .bassmarker .timeline { top:44%; }
   .bassmarker .product { top:58%; }
 }
+
+/* Final BassMarker frame: the timeline exits before the product takes focus. */
+.bassmarker .product { z-index:5; }
+.bassmarker .product-art { min-height:430px; }
+.bassmarker .app-icon { top:2%; left:0; width:clamp(150px,14vw,220px); transform:rotate(-8deg); }
+.bassmarker .fcpx-screen { right:-8%; bottom:-3%; width:112%; transform:rotate(1deg) translateZ(0); }
+@media (max-width:760px) {
+  .bassmarker .product-art { min-height:285px; }
+  .bassmarker .app-icon { width:34vw; }
+  .bassmarker .fcpx-screen { right:-16%; bottom:-4%; width:118%; }
+}
