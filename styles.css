@@ -148,7 +148,69 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   .bassmarker .app-icon {
     top:10%;
   }
-  .bassmarker .fcpx-screen {
-    bottom:-8%;
+.bassmarker .fcpx-screen {
+  bottom:-8%;
+}
+}
+
+/* Tighten the BassMarker scroll stage so the finished frame does not leave a long empty tail. */
+.bassmarker {
+  height:145vh;
+}
+@media (max-width:760px) {
+  .bassmarker {
+    height:150vh;
+  }
+}
+
+/* Contact letter rain. */
+.contact {
+  position:relative;
+  overflow:hidden;
+}
+.contact-panel {
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.contact-panel > :not(.contact-rain) {
+  position:relative;
+  z-index:2;
+}
+.contact-rain {
+  position:absolute;
+  z-index:1;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+.contact-rain span {
+  position:absolute;
+  top:-48px;
+  left:var(--x,50%);
+  color:rgba(245,216,158,.72);
+  font-family:var(--mono);
+  font-size:clamp(13px,1.4vw,22px);
+  text-shadow:0 0 18px rgba(245,216,158,.42);
+  opacity:0;
+  transform:translate3d(0,-36px,0) rotate(-18deg);
+}
+.letters-on .contact-rain span {
+  animation:contact-letter-fall var(--duration,3.4s) cubic-bezier(.2,.68,.24,1) var(--d,0s) both;
+}
+@keyframes contact-letter-fall {
+  0% {
+    opacity:0;
+    transform:translate3d(0,-42px,0) rotate(-24deg);
+  }
+  12% {
+    opacity:.82;
+  }
+  74% {
+    opacity:.55;
+  }
+  100% {
+    opacity:0;
+    transform:translate3d(var(--drift,42px),680px,0) rotate(var(--spin,70deg));
   }
 }
