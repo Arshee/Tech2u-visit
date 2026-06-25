@@ -129,3 +129,26 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
 
 /* Use only the approved Final Cut asset, regardless of earlier fallback declarations. */
 .bassmarker .fcpx-screen { background:url("./images/fcpx-interface.png") center / contain no-repeat !important; }
+
+/* BassMarker timing pass: the product now enters from below and settles lower in the viewport. */
+.bassmarker .product {
+  top:62%;
+  transform:translate(-50%,calc(-50% + var(--product-y,150px))) scale(var(--product-scale,.96));
+}
+.bassmarker .app-icon {
+  top:8%;
+}
+.bassmarker .fcpx-screen {
+  bottom:-7%;
+}
+@media (max-width:760px) {
+  .bassmarker .product {
+    top:64%;
+  }
+  .bassmarker .app-icon {
+    top:10%;
+  }
+  .bassmarker .fcpx-screen {
+    bottom:-8%;
+  }
+}
