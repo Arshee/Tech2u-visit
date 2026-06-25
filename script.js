@@ -150,9 +150,9 @@
     const travel = Math.max(bassmarker.offsetHeight - innerHeight, 1);
     const progress = Math.max(0, Math.min(1, -rect.top / travel));
     const markerProgress = Math.max(0, Math.min(1, (progress - .03) / .13));
-    const timelineExit = Math.max(0, Math.min(1, (progress - .12) / .16));
-    const productOpacity = Math.max(0, Math.min(1, (progress - .1) / .18));
-    const productProgress = Math.max(0, Math.min(1, (progress - .1) / .76));
+    const timelineExit = Math.max(0, Math.min(1, (progress - .24) / .32));
+    const productOpacity = Math.max(0, Math.min(1, (progress - .32) / .28));
+    const productProgress = Math.max(0, Math.min(1, (progress - .18) / .82));
     const productEase = productProgress < .5 ? 2 * productProgress * productProgress : 1 - Math.pow(-2 * productProgress + 2, 2) / 2;
     bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .2, 1) * .64).toFixed(3));
     bassmarker.style.setProperty("--timeline-opacity", `${1 - timelineExit}`);
