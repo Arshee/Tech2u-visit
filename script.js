@@ -57,7 +57,7 @@
       "nav.social":"Sociale", "nav.contact":"Kontakt", "nav.edit":"Montaz", "nav.follow":"Obserwuj <b>↗</b>",
       "hero.title":"Witaj w swiecie<br><span>Tech2u.</span>", "hero.body":"Lacze technologie, film i AI, aby tworzyc tresci, ktore inspiruja, edukują i pomagaja dzialac szybciej.", "hero.explore":"Odkryj kanaly <b>↗</b>", "hero.statusLabel":"AKTUALNIE TWORZE", "hero.statusBody":"AI dla montazu w Final Cut Pro", "hero.scroll":"SCROLL DOWN",
       "social.label":"SOCIAL MEDIA", "social.eyebrow":"KANALY TECH2U", "social.title":"Jedna pasja.<br><span>Cztery formaty.</span>", "social.body":"Tworze tresci tam, gdzie maja najwiekszy sens. Kazda platforma ma swoj charakter, a ja wykorzystuje to w 100%.", "social.cta":"Zobacz wszystkie kanaly ↗",
-      "tag.reviews":"RECENZJE", "tag.edit":"MONTAZ", "tag.social":"SOCIALE", "link.youtube":"Pelne recenzje", "link.youtubeDesc":"Szczegolowe testy, porownania i analizy.", "link.tiktok":"Szybkie testy", "link.tiktokDesc":"Krotkie, dynamiczne i konkretne materialy.", "link.instagram":"Kulisy i lifestyle", "link.instagramDesc":"Zajrzyj za kulisy nagran i zobacz technologie od kuchni.", "link.facebook":"Newsy i premiery", "link.facebookDesc":"Najswiezze informacje i wazne wydarzenia ze swiata tech.", "metric.community":"SPOLECZNOSC", "metric.formats":"FORMATY", "metric.reviews":"RECENZJE I TESTY", "metric.tools":"NARZEDZIA", "edit.index":"TWORCA + DEWELOPER", "edit.eyebrow":"MATERIAL / RYTM / HISTORIA", "edit.title":"Film dla<br><span>emocji.</span>", "edit.body":"Tempo, kolor i przejscia maja dzialac, zanim padnie pierwsze slowo.", "product.eyebrow":"AI DLA MONTAZYSTOW", "product.body":"Wykrywa beaty i automatycznie stawia markery w Final Cut Pro. Ty budujesz historie, program pilnuje rytmu.", "product.cta":"Chce BassMarker Pro ↗", "contact.label":"KONTAKT", "contact.eyebrow":"WSPOLPRACA / PARTNERSTWA", "contact.title":"Wspolpraca? <span>Napisz do mnie.</span>", "contact.body":"Recenzje sprzetu, integracje i partnerstwa - chetnie pogadam."
+      "tag.reviews":"RECENZJE", "tag.edit":"MONTAZ", "tag.social":"SOCIALE", "link.youtube":"Pelne recenzje", "link.youtubeDesc":"Szczegolowe testy, porownania i analizy.", "link.tiktok":"Szybkie testy", "link.tiktokDesc":"Krotkie, dynamiczne i konkretne materialy.", "link.instagram":"Kulisy i lifestyle", "link.instagramDesc":"Zajrzyj za kulisy nagran i zobacz technologie od kuchni.", "link.facebook":"Newsy i premiery", "link.facebookDesc":"Najswiezze informacje i wazne wydarzenia ze swiata tech.", "metric.community":"SPOLECZNOSC", "metric.formats":"FORMATY", "metric.reviews":"RECENZJE I TESTY", "metric.tools":"NARZEDZIA", "edit.index":"TWORCA + DEWELOPER", "edit.eyebrow":"MATERIAL / RYTM / HISTORIA", "edit.title":"Film dla<br><span>emocji.</span>", "edit.body":"Tempo, kolor i przejscia maja dzialac, zanim padnie pierwsze slowo.", "product.eyebrow":"AI DLA MONTAZYSTOW", "product.body":"Wykrywa beaty i automatycznie stawia markery w Final Cut Pro. Ty budujesz historie, program pilnuje rytmu.", "product.cta":"Chce BassMarker Pro ↗", "contact.label":"KONTAKT", "contact.eyebrow":"WSPÓŁPRACA / PARTNERSTWA", "contact.title":"Współpraca? <span>Napisz do mnie.</span>", "contact.body":"Recenzje sprzetu, integracje i partnerstwa - chetnie pogadam."
     },
     en: {
       "nav.social":"Social", "nav.contact":"Contact", "nav.edit":"Editing", "nav.follow":"Follow <b>↗</b>",
@@ -71,12 +71,48 @@
     en: { youtube:"https://www.youtube.com/@Tech2uEN", tiktok:"https://www.tiktok.com/@tech2uen", instagram:"https://www.instagram.com/tech2uen/", facebook:"https://www.facebook.com/Tech2uen" }
   };
   const languageButton = document.querySelector("#languageToggle");
+  const buildContactTitle = () => {
+    const title = document.querySelector(".contact h2[data-i18n-html='contact.title']");
+    if (!title) return;
+    const groups = [];
+    title.childNodes.forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) groups.push({ text:node.textContent, accent:false });
+      if (node.nodeType === Node.ELEMENT_NODE) groups.push({ text:node.textContent, accent:true });
+    });
+    const label = groups.map((group) => group.text).join("").replace(/\s+/g, " ").trim();
+    title.setAttribute("aria-label", label);
+    title.innerHTML = "";
+    let order = 0;
+    groups.forEach((group) => {
+      group.text.split(/(\s+)/).forEach((chunk) => {
+        if (!chunk) return;
+        if (/^\s+$/.test(chunk)) {
+          title.append(document.createTextNode(" "));
+          return;
+        }
+        const word = document.createElement("span");
+        word.className = `contact-title-word${group.accent ? " is-accent" : ""}`;
+        Array.from(chunk).forEach((char) => {
+          const letter = document.createElement("span");
+          letter.className = "contact-title-letter";
+          letter.textContent = char;
+          letter.style.setProperty("--drop-delay", `${Math.min(order * .038, 1.35)}s`);
+          letter.style.setProperty("--drop-x", `${Math.sin(order * 1.7) * 28}px`);
+          letter.style.setProperty("--drop-rot", `${Math.cos(order * 1.3) * 18}deg`);
+          word.append(letter);
+          order += 1;
+        });
+        title.append(word);
+      });
+    });
+  };
   const applyLanguage = (language) => {
     document.documentElement.lang = language;
     document.querySelectorAll("[data-i18n]").forEach((element) => { const text = translations[language][element.dataset.i18n]; if (text) element.textContent = text; });
     document.querySelectorAll("[data-i18n-html]").forEach((element) => { const text = translations[language][element.dataset.i18nHtml]; if (text) element.innerHTML = text; });
     document.querySelectorAll("[data-social-profile]").forEach((element) => { element.href = socialProfiles[language][element.dataset.socialProfile]; });
     languageButton.textContent = language === "pl" ? "EN" : "PL";
+    buildContactTitle();
     localStorage.setItem("tech2u-language", language);
   };
   const savedLanguage = localStorage.getItem("tech2u-language") || "pl";
@@ -85,23 +121,7 @@
 
   const contact = document.querySelector(".contact");
   if (contact && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const panel = contact.querySelector(".contact-panel");
-    const rain = document.createElement("div");
-    rain.className = "contact-rain";
-    rain.setAttribute("aria-hidden", "true");
-    const chars = "TECH2UAIKONTAKTBASSMARKERFCPX";
-    for (let index = 0; index < 32; index += 1) {
-      const letter = document.createElement("span");
-      letter.textContent = chars[index % chars.length];
-      letter.style.setProperty("--x", `${4 + Math.random() * 92}%`);
-      letter.style.setProperty("--d", `${index * .055 + Math.random() * .28}s`);
-      letter.style.setProperty("--duration", `${2.9 + Math.random() * 1.45}s`);
-      letter.style.setProperty("--drift", `${Math.random() * 120 - 60}px`);
-      letter.style.setProperty("--spin", `${Math.random() * 150 - 75}deg`);
-      rain.appendChild(letter);
-    }
-    panel.prepend(rain);
-    const playContactRain = () => {
+    const playContactTitle = () => {
       contact.classList.remove("letters-on");
       void contact.offsetWidth;
       contact.classList.add("letters-on");
@@ -110,14 +130,14 @@
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            playContactRain();
+            playContactTitle();
             observer.unobserve(entry.target);
           }
         });
       }, { threshold:.32, rootMargin:"0px 0px -12% 0px" });
       observer.observe(contact);
     } else {
-      playContactRain();
+      playContactTitle();
     }
   }
 
