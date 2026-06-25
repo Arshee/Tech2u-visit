@@ -92,9 +92,9 @@
     const travel = Math.max(bassmarker.offsetHeight - innerHeight, 1);
     const progress = Math.max(0, Math.min(1, -rect.top / travel));
     const markerProgress = Math.max(0, Math.min(1, (progress - .04) / .18));
-    const timelineExit = Math.max(0, Math.min(1, (progress - .22) / .18));
-    const productProgress = Math.max(0, Math.min(1, (progress - .38) / .24));
-    bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .28, 1) * .64).toFixed(3));
+    const timelineExit = Math.max(0, Math.min(1, (progress - .16) / .17));
+    const productProgress = Math.max(0, Math.min(1, (progress - .27) / .22));
+    bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .24, 1) * .64).toFixed(3));
     bassmarker.style.setProperty("--timeline-opacity", `${1 - timelineExit}`);
     bassmarker.style.setProperty("--marker-opacity", markerProgress.toFixed(2));
     bassmarker.style.setProperty("--marker-y", `${-46 + markerProgress * 46}px`);
