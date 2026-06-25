@@ -83,6 +83,44 @@
   applyLanguage(savedLanguage);
   languageButton.addEventListener("click", () => applyLanguage(document.documentElement.lang === "pl" ? "en" : "pl"));
 
+  const contact = document.querySelector(".contact");
+  if (contact && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const panel = contact.querySelector(".contact-panel");
+    const rain = document.createElement("div");
+    rain.className = "contact-rain";
+    rain.setAttribute("aria-hidden", "true");
+    const chars = "TECH2UAIKONTAKTBASSMARKERFCPX";
+    for (let index = 0; index < 32; index += 1) {
+      const letter = document.createElement("span");
+      letter.textContent = chars[index % chars.length];
+      letter.style.setProperty("--x", `${4 + Math.random() * 92}%`);
+      letter.style.setProperty("--d", `${index * .055 + Math.random() * .28}s`);
+      letter.style.setProperty("--duration", `${2.9 + Math.random() * 1.45}s`);
+      letter.style.setProperty("--drift", `${Math.random() * 120 - 60}px`);
+      letter.style.setProperty("--spin", `${Math.random() * 150 - 75}deg`);
+      rain.appendChild(letter);
+    }
+    panel.prepend(rain);
+    const playContactRain = () => {
+      contact.classList.remove("letters-on");
+      void contact.offsetWidth;
+      contact.classList.add("letters-on");
+    };
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            playContactRain();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold:.32, rootMargin:"0px 0px -12% 0px" });
+      observer.observe(contact);
+    } else {
+      playContactRain();
+    }
+  }
+
   const bassmarker = document.querySelector("[data-bassmarker]");
   let bassmarkerFrame = false;
   const updateBassmarker = () => {
@@ -91,19 +129,20 @@
     const rect = bassmarker.getBoundingClientRect();
     const travel = Math.max(bassmarker.offsetHeight - innerHeight, 1);
     const progress = Math.max(0, Math.min(1, -rect.top / travel));
-    const markerProgress = Math.max(0, Math.min(1, (progress - .03) / .14));
-    const timelineExit = Math.max(0, Math.min(1, (progress - .11) / .14));
-    const productProgress = Math.max(0, Math.min(1, (progress - .16) / .3));
+    const markerProgress = Math.max(0, Math.min(1, (progress - .03) / .13));
+    const timelineExit = Math.max(0, Math.min(1, (progress - .12) / .16));
+    const productOpacity = Math.max(0, Math.min(1, (progress - .1) / .18));
+    const productProgress = Math.max(0, Math.min(1, (progress - .1) / .76));
     const productEase = productProgress < .5 ? 2 * productProgress * productProgress : 1 - Math.pow(-2 * productProgress + 2, 2) / 2;
     bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .2, 1) * .64).toFixed(3));
     bassmarker.style.setProperty("--timeline-opacity", `${1 - timelineExit}`);
     bassmarker.style.setProperty("--marker-opacity", markerProgress.toFixed(2));
     bassmarker.style.setProperty("--marker-y", `${-46 + markerProgress * 46}px`);
     bassmarker.style.setProperty("--playhead-x", `${4 + markerProgress * 82}%`);
-    bassmarker.style.setProperty("--product-opacity", productProgress.toFixed(2));
+    bassmarker.style.setProperty("--product-opacity", productOpacity.toFixed(2));
     bassmarker.style.setProperty("--product-y", `${150 - productEase * 150}px`);
     bassmarker.style.setProperty("--product-scale", (.96 + productEase * .04).toFixed(3));
-    bassmarker.style.setProperty("--product-pointer", productProgress > .96 ? "auto" : "none");
+    bassmarker.style.setProperty("--product-pointer", productProgress > .88 ? "auto" : "none");
   };
   const requestBassmarkerUpdate = () => { if (!bassmarkerFrame) { bassmarkerFrame = true; requestAnimationFrame(updateBassmarker); } };
   addEventListener("scroll", requestBassmarkerUpdate, { passive:true });
