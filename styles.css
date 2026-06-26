@@ -1949,3 +1949,79 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   .badge-two { top:18%; right:5%; }
   .badge-three { right:7%; bottom:17%; }
 }
+
+/* Service card robots: appear from the top edge, away from copy. */
+.service-grid article {
+  min-height:305px;
+}
+.service-grid article::after {
+  top:-78px;
+  right:12px;
+  bottom:auto;
+  width:176px;
+  height:168px;
+  opacity:0;
+  transform:translate3d(0,-22px,0) rotate(-4deg) scale(.78);
+}
+.service-grid article:nth-child(1)::after {
+  top:-72px;
+  right:18px;
+  width:188px;
+  height:178px;
+}
+.service-grid article:nth-child(2)::after {
+  top:-86px;
+  right:-16px;
+  width:210px;
+  height:200px;
+  transform:translate3d(18px,-24px,0) rotate(7deg) scale(.76);
+}
+.service-grid article:nth-child(3)::after {
+  top:-86px;
+  right:-14px;
+  width:210px;
+  height:200px;
+  transform:translate3d(18px,-24px,0) rotate(-7deg) scale(.76);
+}
+.service-grid article:nth-child(4)::after {
+  top:-74px;
+  right:14px;
+  width:188px;
+  height:178px;
+}
+.service-grid article:hover::after {
+  opacity:1;
+  transform:translate3d(0,-38px,0) rotate(1deg) scale(1);
+}
+.service-grid article:nth-child(2):hover::after,
+.service-grid article:nth-child(3):hover::after {
+  transform:translate3d(-8px,-40px,0) rotate(0deg) scale(1);
+}
+.service-grid article p {
+  max-width:100%;
+}
+
+@media (max-width:760px) {
+  .service-grid article {
+    min-height:280px;
+    overflow:visible;
+  }
+  .service-grid article::after {
+    top:-46px;
+    right:-10px;
+    bottom:auto;
+    width:146px;
+    height:138px;
+    opacity:.28;
+    transform:translate3d(0,-6px,0) rotate(-3deg) scale(.84);
+  }
+  .service-grid article:hover::after,
+  .service-grid article:nth-child(2):hover::after,
+  .service-grid article:nth-child(3):hover::after {
+    opacity:.88;
+    transform:translate3d(-6px,-20px,0) rotate(0deg) scale(.98);
+  }
+  .service-grid article p {
+    max-width:100%;
+  }
+}
