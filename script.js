@@ -54,16 +54,30 @@
 
   const translations = {
     pl: {
-      "nav.social":"Sociale", "nav.contact":"Kontakt", "nav.edit":"Montaz", "nav.follow":"Obserwuj <b>↗</b>",
-      "hero.title":"Witaj w swiecie<br><span>Tech2u.</span>", "hero.body":"Lacze technologie, film i AI, aby tworzyc tresci, ktore inspiruja, edukują i pomagaja dzialac szybciej.", "hero.explore":"Odkryj kanaly <b>↗</b>", "hero.statusLabel":"AKTUALNIE TWORZE", "hero.statusBody":"AI dla montazu w Final Cut Pro", "hero.scroll":"SCROLL DOWN",
-      "social.label":"SOCIAL MEDIA", "social.eyebrow":"KANALY TECH2U", "social.title":"Jedna pasja.<br><span>Cztery formaty.</span>", "social.body":"Tworze tresci tam, gdzie maja najwiekszy sens. Kazda platforma ma swoj charakter, a ja wykorzystuje to w 100%.", "social.cta":"Zobacz wszystkie kanaly ↗",
-      "tag.reviews":"RECENZJE", "tag.edit":"MONTAZ", "tag.social":"SOCIALE", "link.youtube":"Pelne recenzje", "link.youtubeDesc":"Szczegolowe testy, porownania i analizy.", "link.tiktok":"Szybkie testy", "link.tiktokDesc":"Krotkie, dynamiczne i konkretne materialy.", "link.instagram":"Kulisy i lifestyle", "link.instagramDesc":"Zajrzyj za kulisy nagran i zobacz technologie od kuchni.", "link.facebook":"Newsy i premiery", "link.facebookDesc":"Najswiezze informacje i wazne wydarzenia ze swiata tech.", "metric.community":"SPOLECZNOSC", "metric.formats":"FORMATY", "metric.reviews":"RECENZJE I TESTY", "metric.tools":"NARZEDZIA", "edit.index":"TWORCA + DEWELOPER", "edit.eyebrow":"MATERIAL / RYTM / HISTORIA", "edit.title":"Film dla<br><span>emocji.</span>", "edit.body":"Tempo, kolor i przejscia maja dzialac, zanim padnie pierwsze slowo.", "product.eyebrow":"AI DLA MONTAZYSTOW", "product.body":"Wykrywa beaty i automatycznie stawia markery w Final Cut Pro. Ty budujesz historie, program pilnuje rytmu.", "product.cta":"Chce BassMarker Pro ↗", "contact.label":"KONTAKT", "contact.eyebrow":"WSPÓŁPRACA / PARTNERSTWA", "contact.title":"Współpraca? <span>Napisz do mnie.</span>", "contact.body":"Recenzje sprzetu, integracje i partnerstwa - chetnie pogadam."
+      "nav.about":"Poznaj", "nav.social":"Sociale", "nav.films":"Filmy", "nav.ai":"AI", "nav.contact":"Kontakt", "nav.edit":"Montaż", "nav.follow":"Obserwuj <b>↗</b>",
+      "hero.title":"Witaj w świecie<br><span>Tech2u.</span>", "hero.body":"Recenzuję technologie, pokazuję kulisy tworzenia filmów i buduję narzędzia AI, które realnie przyspieszają pracę.", "hero.explore":"Poznaj Tech2u <b>↗</b>", "hero.statusLabel":"AKTUALNIE TWORZĘ", "hero.statusBody":"AI dla montażu w Final Cut Pro", "hero.scroll":"SCROLL DOWN",
+      "about.label":"POZNAJ TECH2U", "about.eyebrow":"KIM JESTEM", "about.title":"Technologia,<br><span>film i AI</span> w jednym flow.", "about.body":"Tworzę materiały dla ludzi, którzy chcą rozumieć sprzęt, widzieć proces i korzystać z narzędzi, które oszczędzają czas.", "about.card1Title":"Recenzje bez ściemy", "about.card1Body":"Użytkowe testy, konkretne wnioski i sprzęt w prawdziwym scenariuszu.", "about.card2Title":"Montaż jako opowieść", "about.card2Body":"Tempo, dźwięk i obraz mają prowadzić widza, nie tylko wyglądać dobrze.", "about.card3Title":"AI jako narzędzie", "about.card3Body":"Automatyzacje, analiza i workflow, które zostają po zamknięciu trendu.",
+      "tests.label":"CO TESTUJĘ", "tests.eyebrow":"SPRZĘT / MOBILNOŚĆ / TWORZENIE", "tests.title":"Rzeczy, które<br><span>wchodzą do pracy.</span>", "tests.carTitle":"Auta i mobilność", "tests.carBody":"Technologia, komfort, multimedia i realne użytkowanie.", "tests.droneTitle":"Drony i ujęcia", "tests.droneBody":"Stabilizacja, obraz, latanie i sens w produkcji wideo.", "tests.cameraTitle":"Foto / wideo", "tests.cameraBody":"Kamery, audio, światło i akcesoria dla twórców.", "tests.aiTitle":"AI tools", "tests.aiBody":"Narzędzia, które przyspieszają montaż, research i publikację.",
+      "social.label":"SOCIAL MEDIA", "social.eyebrow":"KANAŁY TECH2U", "social.title":"Jedna pasja.<br><span>Cztery formaty.</span>", "social.body":"Tworzę treści tam, gdzie mają największy sens. Każda platforma ma swój charakter, a ja wykorzystuję to w 100%.", "social.cta":"Zobacz wszystkie kanały ↗",
+      "tag.reviews":"RECENZJE", "tag.edit":"MONTAŻ", "tag.social":"SOCIALE", "link.youtube":"Pełne recenzje", "link.youtubeDesc":"Szczegółowe testy, porównania i analizy.", "link.tiktok":"Szybkie testy", "link.tiktokDesc":"Krótkie, dynamiczne i konkretne materiały.", "link.instagram":"Kulisy i lifestyle", "link.instagramDesc":"Zajrzyj za kulisy nagrań i zobacz technologię od kuchni.", "link.facebook":"Newsy i premiery", "link.facebookDesc":"Najświeższe informacje i ważne wydarzenia ze świata tech.", "metric.community":"SPOŁECZNOŚĆ", "metric.formats":"FORMATY", "metric.reviews":"RECENZJE I TESTY", "metric.tools":"NARZĘDZIA",
+      "making.label":"JAK POWSTAJĄ FILMY", "making.eyebrow":"BEHIND THE SCENES", "making.title":"Studio, rytm<br><span>i decyzje.</span>", "making.body":"Pokazuję nie tylko efekt końcowy. Ważny jest proces: ustawienie sprzętu, selekcja ujęć, montaż, dźwięk i moment, w którym materiał zaczyna działać.",
+      "ai.label":"JAK TWORZĘ AI", "ai.eyebrow":"AUTOMATYZACJE / ANALIZA / FLOW", "ai.title":"AI ma pomagać,<br><span>nie przeszkadzać.</span>", "ai.body":"Buduję narzędzia pod konkretne problemy: analiza audio, markery, research, opisy, skrypty i szybszy montaż.", "ai.step1Title":"Analiza materiału", "ai.step1Body":"Rytm, dźwięk, tempo i miejsca, które warto oznaczyć.", "ai.step2Title":"Automatyzacja", "ai.step2Body":"Powtarzalne kroki idą do narzędzi, a decyzje zostają po stronie twórcy.", "ai.step3Title":"Publikacja", "ai.step3Body":"Formaty, opisy i wersje pod różne platformy.",
+      "product.eyebrow":"AI DLA MONTAŻYSTÓW", "product.body":"Wykrywa beaty i automatycznie stawia markery w Final Cut Pro. Ty budujesz historię, program pilnuje rytmu.", "product.cta":"Chcę BassMarker Pro ↗",
+      "why.label":"DLACZEGO WARTO OBSERWOWAĆ", "why.title":"Mniej szumu.<br><span>Więcej decyzji.</span>", "why.oneTitle":"Praktyczne testy", "why.oneBody":"Nie tylko parametry. Liczy się to, czy sprzęt pomaga w realnym życiu.", "why.twoTitle":"Kulisy pracy", "why.twoBody":"Pokazuję setup, błędy, poprawki i finalny flow.", "why.threeTitle":"AI bez magii", "why.threeBody":"Konkretnie: co działa, co nie działa i gdzie jest sens.",
+      "contact.label":"KONTAKT", "contact.eyebrow":"WSPÓŁPRACA / PARTNERSTWA", "contact.title":"Współpraca? <span>Napisz do mnie.</span>", "contact.body":"Recenzje sprzętu, integracje i partnerstwa - chętnie pogadam."
     },
     en: {
-      "nav.social":"Social", "nav.contact":"Contact", "nav.edit":"Editing", "nav.follow":"Follow <b>↗</b>",
-      "hero.title":"Welcome to<br><span>Tech2u.</span>", "hero.body":"I combine technology, film and AI to create content that inspires, educates and helps you move faster.", "hero.explore":"Explore channels <b>↗</b>", "hero.statusLabel":"CURRENTLY BUILDING", "hero.statusBody":"AI for editing in Final Cut Pro", "hero.scroll":"SCROLL DOWN",
+      "nav.about":"About", "nav.social":"Social", "nav.films":"Films", "nav.ai":"AI", "nav.contact":"Contact", "nav.edit":"Editing", "nav.follow":"Follow <b>↗</b>",
+      "hero.title":"Welcome to<br><span>Tech2u.</span>", "hero.body":"I review technology, show the process behind videos and build AI tools that genuinely speed up creative work.", "hero.explore":"Meet Tech2u <b>↗</b>", "hero.statusLabel":"CURRENTLY BUILDING", "hero.statusBody":"AI for editing in Final Cut Pro", "hero.scroll":"SCROLL DOWN",
+      "about.label":"MEET TECH2U", "about.eyebrow":"WHO I AM", "about.title":"Technology,<br><span>film and AI</span> in one flow.", "about.body":"I create for people who want to understand gear, see the process and use tools that save real time.", "about.card1Title":"Honest reviews", "about.card1Body":"Practical tests, clear takeaways and gear used in real scenarios.", "about.card2Title":"Editing as a story", "about.card2Body":"Pacing, sound and image should guide the viewer, not only look good.", "about.card3Title":"AI as a tool", "about.card3Body":"Automation, analysis and workflows that remain useful after the trend fades.",
+      "tests.label":"WHAT I TEST", "tests.eyebrow":"GEAR / MOBILITY / CREATION", "tests.title":"Tools that<br><span>enter the workflow.</span>", "tests.carTitle":"Cars and mobility", "tests.carBody":"Technology, comfort, multimedia and real daily use.", "tests.droneTitle":"Drones and shots", "tests.droneBody":"Stabilisation, image quality, flying and purpose in video production.", "tests.cameraTitle":"Photo / video", "tests.cameraBody":"Cameras, audio, lighting and creator accessories.", "tests.aiTitle":"AI tools", "tests.aiBody":"Tools that speed up editing, research and publishing.",
       "social.label":"SOCIAL MEDIA", "social.eyebrow":"TECH2U CHANNELS", "social.title":"One passion.<br><span>Four formats.</span>", "social.body":"I create content where it makes the most sense. Every platform has its own character, and I use that to the fullest.", "social.cta":"See all channels ↗",
-      "tag.reviews":"REVIEWS", "tag.edit":"EDITING", "tag.social":"SOCIAL", "link.youtube":"Full reviews", "link.youtubeDesc":"In-depth tests, comparisons and analysis.", "link.tiktok":"Quick tests", "link.tiktokDesc":"Short, dynamic and specific videos.", "link.instagram":"Behind the scenes", "link.instagramDesc":"Look behind the scenes and see technology in context.", "link.facebook":"News and launches", "link.facebookDesc":"Latest updates and important events from the tech world.", "metric.community":"COMMUNITY", "metric.formats":"FORMATS", "metric.reviews":"REVIEWS AND TESTS", "metric.tools":"TOOLS", "edit.index":"CREATOR + DEVELOPER", "edit.eyebrow":"FOOTAGE / RHYTHM / STORY", "edit.title":"Film for<br><span>emotion.</span>", "edit.body":"Pacing, colour and transitions should work before the first word is spoken.", "product.eyebrow":"AI FOR EDITORS", "product.body":"It detects beats and automatically places markers in Final Cut Pro. You shape the story while the app keeps the rhythm.", "product.cta":"Get BassMarker Pro ↗", "contact.label":"CONTACT", "contact.eyebrow":"COLLABORATION / PARTNERSHIPS", "contact.title":"Want to work together? <span>Write to me.</span>", "contact.body":"Product reviews, integrations and partnerships - happy to talk."
+      "tag.reviews":"REVIEWS", "tag.edit":"EDITING", "tag.social":"SOCIAL", "link.youtube":"Full reviews", "link.youtubeDesc":"In-depth tests, comparisons and analysis.", "link.tiktok":"Quick tests", "link.tiktokDesc":"Short, dynamic and specific videos.", "link.instagram":"Behind the scenes", "link.instagramDesc":"Look behind the scenes and see technology in context.", "link.facebook":"News and launches", "link.facebookDesc":"Latest updates and important events from the tech world.", "metric.community":"COMMUNITY", "metric.formats":"FORMATS", "metric.reviews":"REVIEWS AND TESTS", "metric.tools":"TOOLS",
+      "making.label":"HOW VIDEOS ARE MADE", "making.eyebrow":"BEHIND THE SCENES", "making.title":"Studio, rhythm<br><span>and decisions.</span>", "making.body":"I do not show only the final result. The process matters: gear setup, shot selection, editing, sound and the moment when a video starts to work.",
+      "ai.label":"HOW I BUILD AI", "ai.eyebrow":"AUTOMATION / ANALYSIS / FLOW", "ai.title":"AI should help,<br><span>not get in the way.</span>", "ai.body":"I build tools for specific problems: audio analysis, markers, research, descriptions, scripts and faster editing.", "ai.step1Title":"Material analysis", "ai.step1Body":"Rhythm, sound, pacing and moments worth marking.", "ai.step2Title":"Automation", "ai.step2Body":"Repeatable steps go into tools, while creative decisions stay with the creator.", "ai.step3Title":"Publishing", "ai.step3Body":"Formats, descriptions and versions for different platforms.",
+      "product.eyebrow":"AI FOR EDITORS", "product.body":"It detects beats and automatically places markers in Final Cut Pro. You shape the story while the app keeps the rhythm.", "product.cta":"Get BassMarker Pro ↗",
+      "why.label":"WHY FOLLOW", "why.title":"Less noise.<br><span>Better decisions.</span>", "why.oneTitle":"Practical tests", "why.oneBody":"Not only specs. What matters is whether gear helps in real life.", "why.twoTitle":"Real workflow", "why.twoBody":"I show the setup, mistakes, fixes and final flow.", "why.threeTitle":"AI without magic", "why.threeBody":"Clearly: what works, what does not and where it makes sense.",
+      "contact.label":"CONTACT", "contact.eyebrow":"COLLABORATION / PARTNERSHIPS", "contact.title":"Want to work together? <span>Write to me.</span>", "contact.body":"Product reviews, integrations and partnerships - happy to talk."
     }
   };
   const socialProfiles = {
@@ -139,6 +153,98 @@
     } else {
       playContactTitle();
     }
+  }
+
+  const clampValue = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+  const smoothStep = (value) => value * value * (3 - 2 * value);
+  const scrollScenes = Array.from(document.querySelectorAll("[data-scroll-scene]"));
+  let sceneFrame = false;
+  const updateScrollScenes = () => {
+    sceneFrame = false;
+    const viewportHeight = innerHeight || 1;
+    const motionFactor = innerWidth < 760 ? .56 : innerWidth < 1080 ? .78 : 1;
+    scrollScenes.forEach((scene) => {
+      const rect = scene.getBoundingClientRect();
+      const progress = clampValue((viewportHeight * .76 - rect.top) / (rect.height + viewportHeight * .28));
+      scene.style.setProperty("--scene-shift", progress.toFixed(3));
+      scene.querySelectorAll("[data-float-item]").forEach((item, index) => {
+        const start = Number.parseFloat(item.dataset.start || "0");
+        const end = Number.parseFloat(item.dataset.end || "1");
+        const local = smoothStep(clampValue((progress - start) / Math.max(end - start, .001)));
+        const fromX = Number.parseFloat(item.dataset.fromX || "0") * motionFactor;
+        const fromY = Number.parseFloat(item.dataset.fromY || "0") * motionFactor;
+        const toX = Number.parseFloat(item.dataset.toX || "0") * motionFactor;
+        const toY = Number.parseFloat(item.dataset.toY || "0") * motionFactor;
+        const rotFrom = Number.parseFloat(item.dataset.rotFrom || "0");
+        const rotTo = Number.parseFloat(item.dataset.rotTo || "0");
+        const float = Math.sin(performance.now() * .0015 + index * 1.7) * (8 + index * 2);
+        item.style.setProperty("--tx", `${fromX + (toX - fromX) * local}px`);
+        item.style.setProperty("--ty", `${fromY + (toY - fromY) * local + float * local}px`);
+        item.style.setProperty("--rot", `${rotFrom + (rotTo - rotFrom) * local}deg`);
+        item.style.setProperty("--item-scale", `${.82 + local * .18}`);
+        item.style.setProperty("--item-opacity", `${clampValue(local * 1.25)}`);
+      });
+    });
+  };
+  const requestSceneUpdate = () => {
+    if (!sceneFrame) {
+      sceneFrame = true;
+      requestAnimationFrame(updateScrollScenes);
+    }
+  };
+  addEventListener("scroll", requestSceneUpdate, { passive:true });
+  addEventListener("resize", requestSceneUpdate, { passive:true });
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const animateScrollScenes = () => {
+      updateScrollScenes();
+      requestAnimationFrame(animateScrollScenes);
+    };
+    animateScrollScenes();
+  } else {
+    updateScrollScenes();
+  }
+
+  const makingCanvas = document.querySelector(".making-canvas");
+  if (makingCanvas && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const makingContext = makingCanvas.getContext("2d");
+    const particles = Array.from({ length:52 }, () => ({ x:Math.random(), y:Math.random(), speed:Math.random()*.22+.06, size:Math.random()*1.7+.35, gold:Math.random()>.74, phase:Math.random()*Math.PI*2 }));
+    let makingWidth = 0;
+    let makingHeight = 0;
+    const resizeMakingCanvas = () => {
+      const ratio = Math.min(devicePixelRatio || 1, 2);
+      makingWidth = makingCanvas.clientWidth;
+      makingHeight = makingCanvas.clientHeight;
+      makingCanvas.width = makingWidth * ratio;
+      makingCanvas.height = makingHeight * ratio;
+      makingContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+    };
+    const drawMakingCanvas = (time) => {
+      makingContext.clearRect(0, 0, makingWidth, makingHeight);
+      const glow = makingContext.createRadialGradient(makingWidth*.68, makingHeight*.42, 0, makingWidth*.68, makingHeight*.42, Math.max(makingWidth, makingHeight)*.58);
+      glow.addColorStop(0, "rgba(108,88,255,.16)");
+      glow.addColorStop(.48, "rgba(90,120,255,.045)");
+      glow.addColorStop(1, "rgba(0,0,0,0)");
+      makingContext.fillStyle = glow;
+      makingContext.fillRect(0, 0, makingWidth, makingHeight);
+      for (let index = 0; index < 5; index += 1) {
+        makingContext.strokeStyle = index % 2 ? "rgba(236,198,126,.07)" : "rgba(135,159,255,.07)";
+        makingContext.beginPath();
+        makingContext.ellipse(makingWidth*.58, makingHeight*.48, makingWidth*(.22 + index*.055), makingHeight*(.09 + index*.035), -.18, 0, Math.PI*1.78);
+        makingContext.stroke();
+      }
+      particles.forEach((particle, index) => {
+        const x = (particle.x * makingWidth + Math.sin(time*.00022 + particle.phase) * 42) % makingWidth;
+        const y = (particle.y * makingHeight + time*.012*particle.speed + Math.cos(time*.00018 + index) * 16) % makingHeight;
+        makingContext.fillStyle = particle.gold ? "rgba(245,215,150,.56)" : "rgba(181,207,255,.44)";
+        makingContext.beginPath();
+        makingContext.arc(x, y, particle.size, 0, Math.PI * 2);
+        makingContext.fill();
+      });
+      requestAnimationFrame(drawMakingCanvas);
+    };
+    resizeMakingCanvas();
+    addEventListener("resize", resizeMakingCanvas, { passive:true });
+    drawMakingCanvas(0);
   }
 
   const bassmarker = document.querySelector("[data-bassmarker]");
