@@ -1964,14 +1964,14 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   transform:translate3d(0,-22px,0) rotate(-4deg) scale(.78);
 }
 .service-grid article:nth-child(1)::after {
-  top:92px;
-  right:18px;
+  top:-100px;
+  right:-30px;
   width:188px;
   height:178px;
 }
 .service-grid article:nth-child(2)::after {
   top:86px;
-  right:-16px;
+  right:30px;
   width:210px;
   height:200px;
   transform:translate3d(18px,-24px,0) rotate(7deg) scale(.76);
