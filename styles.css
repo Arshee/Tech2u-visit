@@ -1964,27 +1964,27 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   transform:translate3d(0,-22px,0) rotate(-4deg) scale(.78);
 }
 .service-grid article:nth-child(1)::after {
-  top:-110px;
+  top:-130px;
   right:70px;
   width:188px;
   height:178px;
 }
 .service-grid article:nth-child(2)::after {
   top:86px;
-  right:30px;
+  right:-90px;
   width:210px;
   height:200px;
   transform:translate3d(18px,-24px,0) rotate(7deg) scale(.76);
 }
 .service-grid article:nth-child(3)::after {
   top:86px;
-  right:-20px;
+  right:50px;
   width:210px;
   height:200px;
   transform:translate3d(18px,-24px,0) rotate(-7deg) scale(.76);
 }
 .service-grid article:nth-child(4)::after {
-  top:-110px;
+  top:-130px;
   right:14px;
   width:188px;
   height:178px;
