@@ -1748,14 +1748,14 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   transition:opacity .28s ease,transform .48s cubic-bezier(.18,.82,.2,1),filter .28s ease;
 }
 .service-grid article:nth-child(1)::after {
-  background-image:url("./images/service-video-robot.png");
+  background-image:url("./images/service-web-robot.png");
   right:-22px;
   bottom:-58px;
   width:235px;
   height:224px;
 }
 .service-grid article:nth-child(2)::after {
-  background-image:url("./images/service-ai-robot.png");
+  background-image:url("./images/service-video-robot.png");
   right:-66px;
   bottom:-24px;
   width:255px;
@@ -1763,7 +1763,7 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   transform:translate3d(36px,42px,0) rotate(8deg) scale(.72);
 }
 .service-grid article:nth-child(3)::after {
-  background-image:url("./images/service-web-robot.png");
+  background-image:url("./images/service-content-robot.png");
   right:-58px;
   bottom:-24px;
   width:255px;
@@ -1771,7 +1771,7 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   transform:translate3d(34px,42px,0) rotate(-8deg) scale(.72);
 }
 .service-grid article:nth-child(4)::after {
-  background-image:url("./images/service-content-robot.png");
+  background-image:url("./images/service-ai-robot.png");
   right:-30px;
   bottom:-58px;
   width:235px;
@@ -1964,7 +1964,7 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   transform:translate3d(0,-22px,0) rotate(-4deg) scale(.78);
 }
 .service-grid article:nth-child(1)::after {
-  top:-115px;
+  top:-113px;
   right:70px;
   width:188px;
   height:178px;
