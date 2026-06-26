@@ -149,12 +149,12 @@
     const rect = bassmarker.getBoundingClientRect();
     const travel = Math.max(bassmarker.offsetHeight - innerHeight, 1);
     const progress = Math.max(0, Math.min(1, -rect.top / travel));
-    const markerProgress = Math.max(0, Math.min(1, (progress - .03) / .32));
-    const timelineExit = Math.max(0, Math.min(1, (progress - .24) / .48));
-    const productOpacity = Math.max(0, Math.min(1, (progress - .32) / .28));
-    const productProgress = Math.max(0, Math.min(1, (progress - .13) / .82));
+    const markerProgress = Math.max(0, Math.min(1, (progress - .04) / .52));
+    const timelineExit = Math.max(0, Math.min(1, (progress - .62) / .24));
+    const productOpacity = Math.max(0, Math.min(1, (progress - .58) / .22));
+    const productProgress = Math.max(0, Math.min(1, (progress - .5) / .46));
     const productEase = productProgress < .5 ? 2 * productProgress * productProgress : 1 - Math.pow(-2 * productProgress + 2, 2) / 2;
-    bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .2, 1) * .64).toFixed(3));
+    bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .56, 1) * .64).toFixed(3));
     bassmarker.style.setProperty("--timeline-opacity", `${1 - timelineExit}`);
     bassmarker.style.setProperty("--marker-opacity", markerProgress.toFixed(2));
     bassmarker.style.setProperty("--marker-y", `${-46 + markerProgress * 46}px`);
