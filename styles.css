@@ -265,3 +265,67 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
     transform:none;
   }
 }
+
+/* BassMarker graphics sync pass: timeline and product now overlap instead of leaving a blank stage. */
+.bassmarker {
+  height:220vh;
+}
+.bassmarker .timeline {
+  top:45%;
+}
+.bassmarker .product {
+  top:54%;
+  opacity:1;
+  transform:translate(-50%,-50%) scale(var(--product-scale,.975));
+}
+.bassmarker .product-art {
+  min-height:450px;
+  opacity:var(--art-opacity,0);
+  transform:translate3d(0,var(--art-y,92px),0);
+  transition:opacity .08s linear,transform .08s linear;
+}
+.bassmarker .product>div:last-child {
+  opacity:var(--copy-opacity,0);
+  transform:translate3d(0,var(--copy-y,74px),0);
+  transition:opacity .08s linear,transform .08s linear;
+}
+.bassmarker .app-icon {
+  top:3%;
+  left:-2%;
+  width:clamp(130px,11vw,190px);
+  transform:rotate(-7deg) scale(var(--icon-scale,.88));
+}
+.bassmarker .fcpx-screen {
+  right:-4%;
+  bottom:-1%;
+  width:106%;
+  transform:rotate(.75deg) translateZ(0);
+}
+.bassmarker .car-rush {
+  opacity:var(--rush-opacity,0);
+}
+
+@media (max-width:760px) {
+  .bassmarker {
+    height:190vh;
+  }
+  .bassmarker .timeline {
+    top:42%;
+  }
+  .bassmarker .product {
+    top:56%;
+  }
+  .bassmarker .product-art {
+    min-height:292px;
+  }
+  .bassmarker .app-icon {
+    top:6%;
+    left:-1%;
+    width:32vw;
+  }
+  .bassmarker .fcpx-screen {
+    right:-10%;
+    bottom:-2%;
+    width:112%;
+  }
+}
