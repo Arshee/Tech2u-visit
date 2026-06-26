@@ -1955,7 +1955,7 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   min-height:305px;
 }
 .service-grid article::after {
-  top:-72px;
+  top:-78px;
   right:12px;
   bottom:auto;
   width:176px;
@@ -1964,14 +1964,14 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   transform:translate3d(0,-22px,0) rotate(-4deg) scale(.78);
 }
 .service-grid article:nth-child(1)::after {
-  top:-85px;
+  top:-92px;
   right:18px;
   width:188px;
   height:178px;
 }
 .service-grid article:nth-child(2)::after {
   top:-86px;
-  right:0px;
+  right:-16px;
   width:210px;
   height:200px;
   transform:translate3d(18px,-24px,0) rotate(7deg) scale(.76);
@@ -1991,7 +1991,7 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
 }
 .service-grid article:hover::after {
   opacity:1;
-  transform:translate3d(0,-45px,0) rotate(1deg) scale(1);
+  transform:translate3d(0,-38px,0) rotate(1deg) scale(1);
 }
 .service-grid article:nth-child(2):hover::after,
 .service-grid article:nth-child(3):hover::after {
