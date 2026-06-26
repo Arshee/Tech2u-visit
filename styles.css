@@ -1965,7 +1965,7 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
 }
 .service-grid article:nth-child(1)::after {
   top:78px;
-  right:-70px;
+  right:-30px;
   width:210px;
   height:200px;
 }
