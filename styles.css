@@ -1955,7 +1955,7 @@ footer { display:flex; align-items:center; justify-content:space-between; gap:22
   min-height:305px;
 }
 .service-grid article::after {
-  top:-78px;
+  top:-85px;
   right:12px;
   bottom:auto;
   width:176px;
