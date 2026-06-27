@@ -169,6 +169,59 @@
   applyLanguage(savedLanguage);
   languageButton.addEventListener("click", () => applyLanguage(document.documentElement.lang === "pl" ? "en" : "pl"));
 
+  const statusOrbit = document.querySelector(".hero-status-orbit");
+  if (statusOrbit) {
+    const cards = Array.from(statusOrbit.querySelectorAll("[data-status-card]"));
+    const previousButton = statusOrbit.querySelector("[data-status-prev]");
+    const nextButton = statusOrbit.querySelector("[data-status-next]");
+    const dotsContainer = statusOrbit.querySelector("[data-status-dots]");
+    let activeStatus = 0;
+    let statusTimer = 0;
+
+    statusOrbit.classList.add("is-manual");
+    if (dotsContainer) {
+      dotsContainer.innerHTML = cards.map((_, index) => `<i aria-hidden="true" data-status-dot="${index}"></i>`).join("");
+    }
+    const dots = Array.from(statusOrbit.querySelectorAll("[data-status-dot]"));
+
+    const renderStatusCards = () => {
+      cards.forEach((card, index) => {
+        card.classList.remove("is-current", "is-left", "is-right");
+        const offset = (index - activeStatus + cards.length) % cards.length;
+        if (offset === 0) card.classList.add("is-current");
+        if (offset === 1) card.classList.add("is-right");
+        if (offset === cards.length - 1) card.classList.add("is-left");
+      });
+      dots.forEach((dot, index) => dot.classList.toggle("is-active", index === activeStatus));
+    };
+
+    const goToStatus = (index) => {
+      activeStatus = (index + cards.length) % cards.length;
+      renderStatusCards();
+    };
+
+    const restartStatusTimer = () => {
+      clearInterval(statusTimer);
+      statusTimer = setInterval(() => goToStatus(activeStatus + 1), 30000);
+    };
+
+    previousButton?.addEventListener("click", () => {
+      goToStatus(activeStatus - 1);
+      restartStatusTimer();
+    });
+    nextButton?.addEventListener("click", () => {
+      goToStatus(activeStatus + 1);
+      restartStatusTimer();
+    });
+    dots.forEach((dot, index) => dot.addEventListener("click", () => {
+      goToStatus(index);
+      restartStatusTimer();
+    }));
+
+    renderStatusCards();
+    restartStatusTimer();
+  }
+
   const contact = document.querySelector(".contact");
   if (contact && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const playContactTitle = () => {
