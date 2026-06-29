@@ -342,13 +342,16 @@
     bassmarkerFrame = false;
     if (!bassmarker) return;
     const rect = bassmarker.getBoundingClientRect();
+    const isMobileBassmarker = innerWidth <= 760;
     const travel = Math.max(bassmarker.offsetHeight - innerHeight, 1);
-    const progress = Math.max(0, Math.min(1, -rect.top / travel));
+    const progress = isMobileBassmarker
+      ? Math.max(0, Math.min(1, (innerHeight * .82 - rect.top) / (innerHeight * .72)))
+      : Math.max(0, Math.min(1, -rect.top / travel));
     const easeOut = value => 1 - Math.pow(1 - value, 3);
-    const markerProgress = Math.max(0, Math.min(1, (progress - .04) / .54));
-    const artProgress = Math.max(0, Math.min(1, (progress - .32) / .34));
-    const copyProgress = Math.max(0, Math.min(1, (progress - .5) / .32));
-    const timelineExit = Math.max(0, Math.min(1, (progress - .68) / .22));
+    const markerProgress = Math.max(0, Math.min(1, (progress - .04) / (isMobileBassmarker ? .62 : .54)));
+    const artProgress = Math.max(0, Math.min(1, (progress - (isMobileBassmarker ? .2 : .32)) / (isMobileBassmarker ? .5 : .34)));
+    const copyProgress = Math.max(0, Math.min(1, (progress - (isMobileBassmarker ? .48 : .5)) / (isMobileBassmarker ? .38 : .32)));
+    const timelineExit = Math.max(0, Math.min(1, (progress - (isMobileBassmarker ? .76 : .68)) / (isMobileBassmarker ? .2 : .22)));
     const artEase = easeOut(artProgress);
     const copyEase = easeOut(copyProgress);
     bassmarker.style.setProperty("--timeline-scale", (.62 + Math.min(progress / .66, 1) * .42).toFixed(3));
@@ -362,8 +365,8 @@
     bassmarker.style.setProperty("--art-y", `${92 - artEase * 92}px`);
     bassmarker.style.setProperty("--copy-opacity", copyProgress.toFixed(2));
     bassmarker.style.setProperty("--copy-y", `${74 - copyEase * 74}px`);
-    bassmarker.style.setProperty("--product-scale", (.975 + artEase * .025).toFixed(3));
-    bassmarker.style.setProperty("--icon-scale", (.88 + artEase * .12).toFixed(3));
+    bassmarker.style.setProperty("--product-scale", ((isMobileBassmarker ? .9 : .975) + artEase * (isMobileBassmarker ? .1 : .025)).toFixed(3));
+    bassmarker.style.setProperty("--icon-scale", ((isMobileBassmarker ? .74 : .88) + artEase * (isMobileBassmarker ? .26 : .12)).toFixed(3));
     bassmarker.style.setProperty("--product-pointer", copyProgress > .8 ? "auto" : "none");
   };
   const requestBassmarkerUpdate = () => { if (!bassmarkerFrame) { bassmarkerFrame = true; requestAnimationFrame(updateBassmarker); } };
